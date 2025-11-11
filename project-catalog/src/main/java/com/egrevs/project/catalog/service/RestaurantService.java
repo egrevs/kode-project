@@ -1,9 +1,6 @@
 package com.egrevs.project.catalog.service;
 
-import com.egrevs.project.catalog.dto.CreateRestaurantRequest;
-import com.egrevs.project.catalog.dto.DishDto;
-import com.egrevs.project.catalog.dto.FilteredRestaurantRequest;
-import com.egrevs.project.catalog.dto.RestaurantDto;
+import com.egrevs.project.catalog.dto.*;
 import com.egrevs.project.catalog.entity.Dish;
 import com.egrevs.project.catalog.entity.Restaurant;
 import com.egrevs.project.catalog.entity.RestaurantCuisine;
@@ -17,6 +14,7 @@ import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,6 +67,17 @@ public class RestaurantService {
     public RestaurantDto getById(Long id){
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
+
+        return toDto(restaurant);
+    }
+
+    public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, Long id){
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException("No restaurant with id: " + id));
+
+        if(request.name() != null) restaurant.setName(request.name());
+        if(request.cuisine() != null) restaurant.setCuisine(request.cuisine());
+        restaurant.setUpdatedAt(LocalDateTime.now());
 
         return toDto(restaurant);
     }
