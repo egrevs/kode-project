@@ -82,6 +82,15 @@ public class RestaurantService {
         return toDto(restaurant);
     }
 
+    public void closeRestaurantById(Long id){
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException("No restaurant with id: " + id));
+
+        restaurantRepository.delete(restaurant);
+    }
+
+
+
     public static void validateUserRoleForRestaurantCreation(User user) {
         if (user.getRole() == UserRole.COURIER || user.getRole() == UserRole.USER) {
             throw new InsufficientRightsToOperateException("User role is invalid");
