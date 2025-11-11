@@ -1,9 +1,15 @@
 package com.egrevs.project.catalog.service;
 
-import com.egrevs.project.catalog.dto.*;
+import com.egrevs.project.catalog.dto.dish.CreateDishRequest;
+import com.egrevs.project.catalog.dto.dish.DishDto;
+import com.egrevs.project.catalog.dto.dish.UpdateDishRequest;
+import com.egrevs.project.catalog.dto.restaurant.CreateRestaurantRequest;
+import com.egrevs.project.catalog.dto.restaurant.FilteredRestaurantRequest;
+import com.egrevs.project.catalog.dto.restaurant.RestaurantDto;
+import com.egrevs.project.catalog.dto.restaurant.UpdateRestaurantRequest;
 import com.egrevs.project.catalog.entity.Dish;
 import com.egrevs.project.catalog.entity.Restaurant;
-import com.egrevs.project.catalog.entity.RestaurantCuisine;
+import com.egrevs.project.catalog.exceptions.DishNotFoundException;
 import com.egrevs.project.catalog.exceptions.InsufficientRightsToOperateException;
 import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
 import com.egrevs.project.catalog.repository.DishRepository;
@@ -16,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +84,9 @@ public class RestaurantService {
         if(request.cuisine() != null) restaurant.setCuisine(request.cuisine());
         restaurant.setUpdatedAt(LocalDateTime.now());
 
-        return toDto(restaurant);
+        var savedRestaurant = restaurantRepository.save(restaurant);
+
+        return toDto(savedRestaurant);
     }
 
     public void closeRestaurantById(Long id){
@@ -89,7 +96,61 @@ public class RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
+    public DishDto addDish(CreateDishRequest request, Long id){
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException("No restaurant with id: " + id));
 
+        Dish dish = new Dish();
+        dish.setName(request.name());
+        dish.setRestaurant(restaurant);
+        dish.setPrice(request.price());
+        dish.setAvailable(true);
+        dish.setCreatedAt(LocalDateTime.now());
+        dishRepository.save(dish);
+
+        restaurant.getDishes().add(dish);
+        restaurantRepository.save(restaurant);
+
+        return toDto(dish);
+    }
+
+    public List<DishDto> getAllDishesFromRestaurant(Long id){
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException("No restaurant with id: " + id));
+
+        return restaurant.getDishes()
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public DishDto updateDishById(UpdateDishRequest request, Long id){
+        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+                new DishNotFoundException("No dish with id: " + id));
+
+        dish.setUpdatedAt(LocalDateTime.now());
+        if(request.name() != null) dish.setName(request.name());
+        if(request.price() != null) dish.setPrice(request.price());
+        dish.setAvailable(request.isAvailable());
+
+        var savedDish = dishRepository.save(dish);
+        return toDto(savedDish);
+    }
+
+    public void deleteDishById(Long id){
+        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+                new DishNotFoundException("No dish with id: " + id));
+
+        dishRepository.delete(dish);
+    }
+
+    //TODO проверки сделать
+    public void changeAvailabilityOfDish(Long id, boolean isAvailable){
+        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+                new DishNotFoundException("No dish with id: " + id));
+
+        dish.setAvailable(isAvailable);
+    }
 
     public static void validateUserRoleForRestaurantCreation(User user) {
         if (user.getRole() == UserRole.COURIER || user.getRole() == UserRole.USER) {
@@ -114,7 +175,10 @@ public class RestaurantService {
         return new DishDto(
                 dish.getId(),
                 dish.getName(),
-                dish.isAvailable()
+                dish.getPrice(),
+                dish.isAvailable(),
+                dish.getCreatedAt(),
+                dish.getUpdatedAt()
         );
     }
 }

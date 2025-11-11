@@ -1,5 +1,6 @@
-package com.egrevs.project.catalog.dto;
+package com.egrevs.project.catalog.dto.restaurant;
 
+import com.egrevs.project.catalog.dto.dish.DishDto;
 import com.egrevs.project.catalog.entity.RestaurantCuisine;
 
 import java.time.LocalDateTime;
