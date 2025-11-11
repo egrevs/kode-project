@@ -2,11 +2,13 @@ package com.egrevs.project.catalog.service;
 
 import com.egrevs.project.catalog.dto.CreateRestaurantRequest;
 import com.egrevs.project.catalog.dto.DishDto;
+import com.egrevs.project.catalog.dto.FilteredRestaurantRequest;
 import com.egrevs.project.catalog.dto.RestaurantDto;
 import com.egrevs.project.catalog.entity.Dish;
 import com.egrevs.project.catalog.entity.Restaurant;
 import com.egrevs.project.catalog.entity.RestaurantCuisine;
 import com.egrevs.project.catalog.exceptions.InsufficientRightsToOperateException;
+import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
 import com.egrevs.project.catalog.repository.DishRepository;
 import com.egrevs.project.catalog.repository.RestaurantRepository;
 import com.egrevs.project.gateway.entity.User;
@@ -54,8 +56,21 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
-    public List<RestaurantDto> getFilteredByRatingAndCuisine(float rating, RestaurantCuisine cuisine){
-        
+    public List<RestaurantDto> getFilteredByRatingAndCuisine(FilteredRestaurantRequest request){
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<RestaurantDto> list = restaurants.stream()
+                .filter(r -> r.getRating() == request.rating())
+                .filter(r -> r.getCuisine() == request.cuisine())
+                .map(this::toDto).toList();
+
+        return list;
+    }
+
+    public RestaurantDto getById(Long id){
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
+                new RestaurantNotFoundException("No restaurant with id: " + id));
+
+        return toDto(restaurant);
     }
 
     public static void validateUserRoleForRestaurantCreation(User user) {
