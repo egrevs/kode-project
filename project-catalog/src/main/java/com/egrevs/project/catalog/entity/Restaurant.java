@@ -38,6 +38,6 @@ public class Restaurant {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL, orphanRemoval = true)
-    public ArrayList<Dish> dishes = new ArrayList<>();
+    private ArrayList<Dish> dishes = new ArrayList<>();
 
 }
