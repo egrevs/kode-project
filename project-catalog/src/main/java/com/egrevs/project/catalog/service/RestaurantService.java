@@ -149,6 +149,9 @@ public class RestaurantService {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
+        if (isAvailable == dish.isAvailable()){
+            return;
+        }
         dish.setAvailable(isAvailable);
     }
 
