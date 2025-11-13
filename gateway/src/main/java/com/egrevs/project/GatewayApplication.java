@@ -1,4 +1,4 @@
-package com.egrevs.project.gateway;
+package com.egrevs.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -5,14 +5,13 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.egrevs.demo</groupId>
+    <groupId>com.egrevs.project</groupId>
     <artifactId>kode-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>kode-project</name>
 
     <modules>
-        <module>project-db</module>
         <module>gateway</module>
         <module>project-catalog</module>
     </modules>

@@ -3,12 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.egrevs.demo</groupId>
+        <groupId>com.egrevs.project</groupId>
         <artifactId>kode-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.egrevs.project</groupId>
     <artifactId>gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gateway</name>
@@ -50,11 +49,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -64,12 +58,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.egrevs.demo</groupId>
-            <artifactId>project-db</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -87,6 +75,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>project-catalog</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

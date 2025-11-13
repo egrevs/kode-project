@@ -11,13 +11,10 @@ import com.egrevs.project.catalog.entity.Dish;
 import com.egrevs.project.catalog.entity.Restaurant;
 import com.egrevs.project.catalog.exceptions.DishNotFoundException;
 import com.egrevs.project.catalog.exceptions.InsufficientRightsToOperateException;
+import com.egrevs.project.catalog.exceptions.RestaurantIsAlreadyExistsException;
 import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
 import com.egrevs.project.catalog.repository.DishRepository;
 import com.egrevs.project.catalog.repository.RestaurantRepository;
-import com.egrevs.project.gateway.entity.User;
-import com.egrevs.project.gateway.entity.UserRole;
-import com.egrevs.project.gateway.exceptions.UserNotFoundException;
-import com.egrevs.project.gateway.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,26 +26,19 @@ import java.util.stream.Collectors;
 public class RestaurantService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
-    private final UserRepository userRepository;
 
-    public RestaurantService(DishRepository dishRepository, RestaurantRepository restaurantRepository,
-                             UserRepository repository) {
+    public RestaurantService(DishRepository dishRepository, RestaurantRepository restaurantRepository) {
         this.dishRepository = dishRepository;
         this.restaurantRepository = restaurantRepository;
-        this.userRepository = repository;
     }
 
     //TODO -> сделать нормальную логику добавления блюд сразу
     public RestaurantDto createRestaurant(CreateRestaurantRequest request, Long userId) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
+        if(restaurantRepository.existsRestaurantByName(request.name())){
+            throw new RestaurantIsAlreadyExistsException("Restaurant with such name is already exists");
         }
-
-        validateUserRoleForRestaurantCreation(user);
-
         Restaurant restaurant = new Restaurant();
-        restaurant.setUserId(user.getId());
+        restaurant.setUserId(userId);
         restaurant.setName(request.name());
         restaurant.setRating(0.0f);
         restaurant.setCuisine(request.restaurantCuisine());
@@ -59,7 +49,7 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
-    public List<RestaurantDto> getFilteredByRatingAndCuisine(FilteredRestaurantRequest request){
+    public List<RestaurantDto> getFilteredByRatingAndCuisine(FilteredRestaurantRequest request) {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<RestaurantDto> list = restaurants.stream()
                 .filter(r -> r.getRating() == request.rating())
@@ -69,19 +59,19 @@ public class RestaurantService {
         return list;
     }
 
-    public RestaurantDto getById(Long id){
+    public RestaurantDto getById(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
         return toDto(restaurant);
     }
 
-    public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, Long id){
+    public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
-        if(request.name() != null) restaurant.setName(request.name());
-        if(request.cuisine() != null) restaurant.setCuisine(request.cuisine());
+        if (request.name() != null) restaurant.setName(request.name());
+        if (request.cuisine() != null) restaurant.setCuisine(request.cuisine());
         restaurant.setUpdatedAt(LocalDateTime.now());
 
         var savedRestaurant = restaurantRepository.save(restaurant);
@@ -89,14 +79,14 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
-    public void closeRestaurantById(Long id){
+    public void closeRestaurantById(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
         restaurantRepository.delete(restaurant);
     }
 
-    public DishDto addDish(CreateDishRequest request, Long id){
+    public DishDto addDish(CreateDishRequest request, Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -114,7 +104,7 @@ public class RestaurantService {
         return toDto(dish);
     }
 
-    public List<DishDto> getAllDishesFromRestaurant(Long id){
+    public List<DishDto> getAllDishesFromRestaurant(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -124,20 +114,20 @@ public class RestaurantService {
                 .toList();
     }
 
-    public DishDto updateDishById(UpdateDishRequest request, Long id){
+    public DishDto updateDishById(UpdateDishRequest request, Long id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
         dish.setUpdatedAt(LocalDateTime.now());
-        if(request.name() != null) dish.setName(request.name());
-        if(request.price() != null) dish.setPrice(request.price());
+        if (request.name() != null) dish.setName(request.name());
+        if (request.price() != null) dish.setPrice(request.price());
         dish.setAvailable(request.isAvailable());
 
         var savedDish = dishRepository.save(dish);
         return toDto(savedDish);
     }
 
-    public void deleteDishById(Long id){
+    public void deleteDishById(Long id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
@@ -145,20 +135,14 @@ public class RestaurantService {
     }
 
     //TODO проверки сделать
-    public void changeAvailabilityOfDish(Long id, boolean isAvailable){
+    public void changeAvailabilityOfDish(Long id, boolean isAvailable) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        if (isAvailable == dish.isAvailable()){
+        if (isAvailable == dish.isAvailable()) {
             return;
         }
         dish.setAvailable(isAvailable);
-    }
-
-    public static void validateUserRoleForRestaurantCreation(User user) {
-        if (user.getRole() == UserRole.COURIER || user.getRole() == UserRole.USER) {
-            throw new InsufficientRightsToOperateException("User role is invalid");
-        }
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {
