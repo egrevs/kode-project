@@ -23,7 +23,8 @@ public class CartService {
 
     @Transactional(readOnly = true)
     public CartDto getCart(Long cartId) {
-        Cart cart = findCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found: " + cartId));
         return toDto(cart);
     }
 
@@ -53,7 +54,8 @@ public class CartService {
 
     @Transactional
     public CartDto addItem(Long cartId, CreateCartItemsRequest request) {
-        Cart cart = findCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found: " + cartId));
 
         CartItems existing = cart.getDishes().stream()
                 .filter(i -> i.getDishId().equals(request.dishId()))
@@ -102,7 +104,8 @@ public class CartService {
 
     @Transactional
     public CartDto deleteItem(Long cartId, Long itemId) {
-        Cart cart = findCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found: " + cartId));
 
         CartItems item = cart.getDishes().stream()
                 .filter(i -> i.getId().equals(itemId))
@@ -118,18 +121,14 @@ public class CartService {
 
     @Transactional
     public CartDto clearCart(Long cartId) {
-        Cart cart = findCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found: " + cartId));
 
         cart.getDishes().clear();
         cartItemRepository.deleteAllByCartId(cartId);
 
         recalc(cart);
         return toDto(cartRepository.save(cart));
-    }
-
-    private Cart findCart(Long id) {
-        return cartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cart not found: " + id));
     }
 
     private void recalc(Cart cart) {
