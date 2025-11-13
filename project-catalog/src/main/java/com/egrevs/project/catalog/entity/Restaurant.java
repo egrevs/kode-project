@@ -25,7 +25,7 @@ public class Restaurant {
     private String name;
 
     @Column(name = "rating")
-    private float rating;
+    private Float rating;
 
     @Column(name = "cuisine")
     @Enumerated(EnumType.STRING)

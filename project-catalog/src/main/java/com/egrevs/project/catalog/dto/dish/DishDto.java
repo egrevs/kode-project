@@ -7,7 +7,7 @@ public record DishDto(
         Long id,
         String name,
         BigDecimal price,
-        boolean isAvailable,
+        Boolean isAvailable,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

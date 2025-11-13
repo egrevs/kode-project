@@ -5,6 +5,6 @@ import java.math.BigDecimal;
 public record UpdateDishRequest(
         String name,
         BigDecimal price,
-        boolean isAvailable
+        Boolean isAvailable
 ) {
 }

@@ -1,4 +1,4 @@
-package com.egrevs.project.catalog.entity;
+package com.egrevs.project.cart.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,34 +6,32 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "dishes")
+@Table(name = "cart")
 @Getter
 @Setter
-public class Dish {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @Column(name = "is_available")
-    private Boolean isAvailable;
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItems> dishes = new ArrayList<>();
 }
