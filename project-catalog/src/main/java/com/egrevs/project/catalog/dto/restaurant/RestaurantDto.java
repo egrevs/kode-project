@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record RestaurantDto(
-        Long id,
-        Long userId,
+        String id,
+        String userId,
         String name,
         float rating,
         RestaurantCuisine cuisine,

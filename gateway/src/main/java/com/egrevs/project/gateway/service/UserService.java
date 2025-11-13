@@ -39,13 +39,13 @@ public class UserService {
         return toDto(savedUser);
     }
 
-    public UserDto getUserById(Long id) {
+    public UserDto getUserById(String id) {
         return userRepository.findById(id)
                 .map(this::toDto)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    public UserDto updateUserById(UpdateUserRequest request, Long id) {
+    public UserDto updateUserById(UpdateUserRequest request, String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (request.name() != null) user.setName(request.name());
@@ -56,7 +56,7 @@ public class UserService {
         return toDto(userRepository.save(user));
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(user);
     }

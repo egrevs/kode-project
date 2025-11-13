@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
     boolean existsByLogin(String login);
     List<User> findAllByRole(UserRole role);
-    User findUserById(Long id);
+
+    User findUserById(String id);
 }

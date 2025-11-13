@@ -5,7 +5,7 @@ import com.egrevs.project.gateway.entity.UserRole;
 import java.time.LocalDateTime;
 
 public record UserDto(
-        Long id,
+        String id,
         String name,
         String email,
         String login,

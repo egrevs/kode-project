@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record CartItemsDto(
-        Long id,
+        String id,
         BigDecimal dishPrice,
         String dishName,
         BigDecimal totalPrice,

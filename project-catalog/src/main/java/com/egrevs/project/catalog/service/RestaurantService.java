@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +35,7 @@ public class RestaurantService {
     }
 
     //TODO -> сделать нормальную логику добавления блюд сразу
-    public RestaurantDto createRestaurant(CreateRestaurantRequest request, Long userId) {
+    public RestaurantDto createRestaurant(CreateRestaurantRequest request, String userId) {
         if(restaurantRepository.existsRestaurantByName(request.name())){
             throw new RestaurantIsAlreadyExistsException("Restaurant with such name is already exists");
         }
@@ -59,14 +61,14 @@ public class RestaurantService {
         return list;
     }
 
-    public RestaurantDto getById(Long id) {
+    public RestaurantDto getById(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
         return toDto(restaurant);
     }
 
-    public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, Long id) {
+    public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -79,14 +81,14 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
-    public void closeRestaurantById(Long id) {
+    public void closeRestaurantById(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
         restaurantRepository.delete(restaurant);
     }
 
-    public DishDto addDish(CreateDishRequest request, Long id) {
+    public DishDto addDish(CreateDishRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -94,7 +96,7 @@ public class RestaurantService {
         dish.setName(request.name());
         dish.setRestaurant(restaurant);
         dish.setPrice(request.price());
-        dish.setAvailable(true);
+        dish.setIsAvailable(true);
         dish.setCreatedAt(LocalDateTime.now());
         dishRepository.save(dish);
 
@@ -104,7 +106,7 @@ public class RestaurantService {
         return toDto(dish);
     }
 
-    public List<DishDto> getAllDishesFromRestaurant(Long id) {
+    public List<DishDto> getAllDishesFromRestaurant(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -114,20 +116,20 @@ public class RestaurantService {
                 .toList();
     }
 
-    public DishDto updateDishById(UpdateDishRequest request, Long id) {
+    public DishDto updateDishById(UpdateDishRequest request, String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
         dish.setUpdatedAt(LocalDateTime.now());
         if (request.name() != null) dish.setName(request.name());
         if (request.price() != null) dish.setPrice(request.price());
-        dish.setAvailable(request.isAvailable());
+        dish.setIsAvailable(request.isAvailable());
 
         var savedDish = dishRepository.save(dish);
         return toDto(savedDish);
     }
 
-    public void deleteDishById(Long id) {
+    public void deleteDishById(String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
@@ -135,14 +137,14 @@ public class RestaurantService {
     }
 
     //TODO проверки сделать
-    public void changeAvailabilityOfDish(Long id, boolean isAvailable) {
+    public void changeAvailabilityOfDish(String id, boolean isAvailable) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        if (isAvailable == dish.isAvailable()) {
+        if (isAvailable == dish.getIsAvailable()) {
             return;
         }
-        dish.setAvailable(isAvailable);
+        dish.setIsAvailable(isAvailable);
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {
@@ -163,7 +165,7 @@ public class RestaurantService {
                 dish.getId(),
                 dish.getName(),
                 dish.getPrice(),
-                dish.isAvailable(),
+                dish.getIsAvailable(),
                 dish.getCreatedAt(),
                 dish.getUpdatedAt()
         );

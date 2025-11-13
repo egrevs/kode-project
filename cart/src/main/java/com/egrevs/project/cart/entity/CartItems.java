@@ -3,6 +3,7 @@ package com.egrevs.project.cart.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,16 +15,17 @@ import java.time.LocalDateTime;
 public class CartItems {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "id")
-    private Long id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
     @Column(name = "dish_id")
-    private Long dishId;
+    private String dishId;
 
     @Column(name = "dish_price")
     private BigDecimal dishPrice;

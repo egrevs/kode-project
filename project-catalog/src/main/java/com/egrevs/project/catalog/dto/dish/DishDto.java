@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record DishDto(
-        Long id,
+        String id,
         String name,
         BigDecimal price,
         Boolean isAvailable,

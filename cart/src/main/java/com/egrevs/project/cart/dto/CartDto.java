@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CartDto(
-        Long id,
+        String id,
         Integer quantity,
         BigDecimal totalPrice,
         LocalDateTime createdAt,

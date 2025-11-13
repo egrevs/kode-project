@@ -23,20 +23,20 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> registerUser(
             @RequestBody CreateUserRequest request,
-            @RequestParam UserRole role) {
+            @RequestParam("role") UserRole role) {
         UserDto userDto = userService.registerUser(request, role);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable Long id) {
-        UserDto userDto = userService.getUserById(id);
-        return ResponseEntity.ok(userDto);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<UserDto> findById(@PathVariable String id) {
+//        UserDto userDto = userService.getUserById(id);
+//        return ResponseEntity.ok(userDto);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestBody UpdateUserRequest request
     ) {
         UserDto updatedUser = userService.updateUserById(request, id);
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUserById(@PathVariable String id){
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
