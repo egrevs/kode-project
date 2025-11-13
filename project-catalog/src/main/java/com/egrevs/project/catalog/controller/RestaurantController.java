@@ -7,8 +7,6 @@ import com.egrevs.project.catalog.dto.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.catalog.dto.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.catalog.dto.restaurant.RestaurantDto;
 import com.egrevs.project.catalog.dto.restaurant.UpdateRestaurantRequest;
-import com.egrevs.project.catalog.entity.Dish;
-import com.egrevs.project.catalog.entity.Restaurant;
 import com.egrevs.project.catalog.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
