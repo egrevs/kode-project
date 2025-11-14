@@ -8,6 +8,7 @@ import com.egrevs.project.gateway.exceptions.RoleNullableException;
 import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
 import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Регистрация пользователя")
     @PostMapping
     public ResponseEntity<UserDto> registerUser(
             @RequestBody CreateUserRequest request,
@@ -34,6 +36,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Получение профиля пользователя по ID")
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable String id) {
         try {
@@ -43,6 +46,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Обновление профиля по ID")
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable String id,
@@ -55,6 +59,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Фильтрация по ролям пользователя")
     @GetMapping
     public ResponseEntity<List<UserDto>> filterByRole(@RequestParam(required = false) UserRole role) {
         try {
@@ -64,6 +69,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Деактивация пользователя")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
         try {
