@@ -1,4 +1,4 @@
-package com.egrevs.project.cart.entity;
+package com.egrevs.project.cart.entity.cart;
 
 import jakarta.persistence.*;
 import lombok.Getter;

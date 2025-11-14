@@ -1,11 +1,11 @@
 package com.egrevs.project.cart.service;
 
-import com.egrevs.project.cart.dto.CartDto;
-import com.egrevs.project.cart.dto.CartItemDto;
-import com.egrevs.project.cart.dto.CreateCartRequest;
-import com.egrevs.project.cart.dto.UpdateCartItemsRequest;
-import com.egrevs.project.cart.entity.Cart;
-import com.egrevs.project.cart.entity.CartItem;
+import com.egrevs.project.cart.dto.cart.CartDto;
+import com.egrevs.project.cart.dto.cart.CartItemDto;
+import com.egrevs.project.cart.dto.cart.CreateCartRequest;
+import com.egrevs.project.cart.dto.cart.UpdateCartItemsRequest;
+import com.egrevs.project.cart.entity.cart.Cart;
+import com.egrevs.project.cart.entity.cart.CartItem;
 import com.egrevs.project.cart.exception.CartNotFoundException;
 import com.egrevs.project.cart.repository.CartItemsRepository;
 import com.egrevs.project.cart.repository.CartsRepository;

@@ -1,4 +1,4 @@
-package com.egrevs.project.cart.dto;
+package com.egrevs.project.cart.dto.cart;
 
 public record UpdateCartItemsRequest(
         Integer quantity

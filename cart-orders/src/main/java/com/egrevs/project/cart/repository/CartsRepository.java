@@ -1,6 +1,6 @@
 package com.egrevs.project.cart.repository;
 
-import com.egrevs.project.cart.entity.Cart;
+import com.egrevs.project.cart.entity.cart.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
