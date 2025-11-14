@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "cart_item")
 @Getter
 @Setter
-public class CartItems {
+public class CartItem {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

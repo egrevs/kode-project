@@ -5,6 +5,6 @@ import java.math.BigDecimal;
 public record CreateCartItemsRequest(
         BigDecimal price,
         Integer quantity,
-        Long dishId
+        String dishId
 ) {
 }

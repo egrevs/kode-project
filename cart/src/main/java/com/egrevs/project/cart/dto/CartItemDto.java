@@ -3,7 +3,7 @@ package com.egrevs.project.cart.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record CartItemsDto(
+public record CartItemDto(
         String id,
         BigDecimal dishPrice,
         String dishName,

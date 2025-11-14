@@ -22,6 +22,9 @@ public class Cart {
     @Column(name = "id")
     private String id;
 
+    @Column(name = "userId")
+    private String userId;
+
     @Column(name = "quantity")
     private Integer quantity;
 
@@ -35,5 +38,5 @@ public class Cart {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItems> dishes = new ArrayList<>();
+    private List<CartItem> dishes = new ArrayList<>();
 }

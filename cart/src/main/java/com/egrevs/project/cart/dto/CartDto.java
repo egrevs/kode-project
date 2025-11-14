@@ -6,10 +6,11 @@ import java.util.List;
 
 public record CartDto(
         String id,
+        String userId,
         Integer quantity,
         BigDecimal totalPrice,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        List<CartItemsDto> cartItemsDtoList
+        List<CartItemDto> cartItemsDtoList
 ) {
 }
