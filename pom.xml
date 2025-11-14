@@ -12,9 +12,9 @@
     <name>kode-project</name>
 
     <modules>
-        <module>gateway</module>
+        <module>user-module</module>
         <module>project-catalog</module>
-        <module>cart</module>
+        <module>cart-orders</module>
     </modules>
 
     <properties>
