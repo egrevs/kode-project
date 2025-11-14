@@ -5,6 +5,7 @@ import com.egrevs.project.gateway.dto.UpdateUserRequest;
 import com.egrevs.project.gateway.dto.UserDto;
 import com.egrevs.project.gateway.entity.User;
 import com.egrevs.project.gateway.entity.UserRole;
+import com.egrevs.project.gateway.exceptions.RoleNullableException;
 import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
 import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.repository.UserRepository;
@@ -62,6 +63,9 @@ public class UserService {
     }
 
     public List<UserDto> filterByRole(UserRole role) {
+        if (role == null){
+            throw new RoleNullableException("Role of user can not be null");
+        }
         return userRepository.findAllByRole(role)
                 .stream()
                 .map(this::toDto)

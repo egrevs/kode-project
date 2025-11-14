@@ -4,6 +4,9 @@ import com.egrevs.project.gateway.dto.CreateUserRequest;
 import com.egrevs.project.gateway.dto.UpdateUserRequest;
 import com.egrevs.project.gateway.dto.UserDto;
 import com.egrevs.project.gateway.entity.UserRole;
+import com.egrevs.project.gateway.exceptions.RoleNullableException;
+import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
+import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,37 +27,50 @@ public class UserController {
     public ResponseEntity<UserDto> registerUser(
             @RequestBody CreateUserRequest request,
             @RequestParam("role") UserRole role) {
-        UserDto userDto = userService.registerUser(request, role);
-        return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+        try {
+            return ResponseEntity.ok(userService.registerUser(request, role));
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<UserDto> findById(@PathVariable String id) {
-//        UserDto userDto = userService.getUserById(id);
-//        return ResponseEntity.ok(userDto);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> findById(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(id));
+        }catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable String id,
             @RequestBody UpdateUserRequest request
     ) {
-        UserDto updatedUser = userService.updateUserById(request, id);
-        return ResponseEntity.ok(updatedUser);
+        try {
+            return  ResponseEntity.ok(userService.updateUserById(request, id));
+        } catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping
     public ResponseEntity<List<UserDto>> filterByRole(@RequestParam(required = false) UserRole role) {
-        if (role != null) {
+        try {
             return ResponseEntity.ok(userService.filterByRole(role));
-        }else{
-            return ResponseEntity.ok(userService.getAll());
+        } catch (RoleNullableException e){
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable String id){
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        } catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }

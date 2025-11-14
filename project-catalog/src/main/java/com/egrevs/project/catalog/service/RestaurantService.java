@@ -145,6 +145,7 @@ public class RestaurantService {
             return;
         }
         dish.setIsAvailable(isAvailable);
+        dishRepository.save(dish);
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {
