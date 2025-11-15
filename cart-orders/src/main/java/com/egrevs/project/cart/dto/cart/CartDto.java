@@ -11,6 +11,6 @@ public record CartDto(
         BigDecimal totalPrice,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        List<CartItemDto> cartItemsDtoList
+        List<CartItemsDto> cartItemsDtoList
 ) {
 }

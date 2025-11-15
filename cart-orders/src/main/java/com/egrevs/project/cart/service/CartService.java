@@ -1,11 +1,11 @@
 package com.egrevs.project.cart.service;
 
 import com.egrevs.project.cart.dto.cart.CartDto;
-import com.egrevs.project.cart.dto.cart.CartItemDto;
+import com.egrevs.project.cart.dto.cart.CartItemsDto;
 import com.egrevs.project.cart.dto.cart.CreateCartRequest;
 import com.egrevs.project.cart.dto.cart.UpdateCartItemsRequest;
 import com.egrevs.project.cart.entity.cart.Cart;
-import com.egrevs.project.cart.entity.cart.CartItem;
+import com.egrevs.project.cart.entity.cart.CartItems;
 import com.egrevs.project.cart.exception.CartNotFoundException;
 import com.egrevs.project.cart.repository.CartItemsRepository;
 import com.egrevs.project.cart.repository.CartsRepository;
@@ -25,14 +25,13 @@ public class CartService {
 
     private final CartsRepository cartRepository;
     private final CartItemsRepository cartItemRepository;
-    private final RestaurantService restaurantService;
 
     public CartDto createCart(CreateCartRequest cartRequest, String userId){
         Cart cart = new Cart();
         cart.setId(userId);
 
-        List<CartItem> cartItemsList = cartRequest.requestList().stream().map(itemReq -> {
-            CartItem cartItems = new CartItem();
+        List<CartItems> cartItemsList = cartRequest.requestList().stream().map(itemReq -> {
+            CartItems cartItems = new CartItems();
             cartItems.setDishId(itemReq.dishId());
             cartItems.setCart(cart);
             cartItems.setDishPrice(itemReq.price());
@@ -46,12 +45,12 @@ public class CartService {
 
         cart.setQuantity(cartItemsList
                 .stream()
-                .mapToInt(CartItem::getQuantity)
+                .mapToInt(CartItems::getQuantity)
                 .sum());
 
         cart.setTotalPrice(cartItemsList
                 .stream()
-                .map(CartItem::getTotalPrice)
+                .map(CartItems::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
 
         Cart savedCart = cartRepository.save(cart);
@@ -59,19 +58,19 @@ public class CartService {
     }
 
     public void deleteDishFromCart(String itemId){
-        CartItem cartItems = cartItemRepository.findById(itemId)
+        CartItems cartItems = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new DishNotFoundException("No dish in cart with such id"));
 
         cartItemRepository.delete(cartItems);
     }
 
-    public CartItemDto changeItemQuantity(String itemId, UpdateCartItemsRequest request){
-        CartItem cartItems = cartItemRepository.findById(itemId)
+    public CartItemsDto changeItemQuantity(String itemId, UpdateCartItemsRequest request){
+        CartItems cartItems = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new DishNotFoundException("No dish in cart with such id"));
 
         cartItems.setQuantity(request.quantity());
 
-        CartItem savedItem = cartItemRepository.save(cartItems);
+        CartItems savedItem = cartItemRepository.save(cartItems);
 
         return toDto(savedItem);
     }
@@ -80,7 +79,6 @@ public class CartService {
         return toDto(cartRepository.findByUserId(userId));
     }
 
-    //cart
     public void clearCart(String cartId){
         cartRepository.findById(cartId)
                 .orElseThrow(() -> new CartNotFoundException("No cart with such id"));
@@ -100,8 +98,8 @@ public class CartService {
         );
     }
 
-    private CartItemDto toDto(CartItem cartItem){
-        return new CartItemDto(
+    private CartItemsDto toDto(CartItems cartItem){
+        return new CartItemsDto(
                 cartItem.getId(),
                 cartItem.getDishPrice(),
                 cartItem.getDishName(),

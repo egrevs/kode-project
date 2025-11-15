@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cart_item")
+@Table(name = "cart_items")
 @Getter
 @Setter
-public class CartItem {
+public class CartItems {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
