@@ -77,7 +77,7 @@ public class OrderController {
     }
 
     @Operation(summary = "Отфильтровать заказы по статусу")
-    @GetMapping
+    @GetMapping("/status")
     public ResponseEntity<List<OrderDto>> filterByStatus(@RequestParam OrderStatus status){
         return ResponseEntity.ok(orderService.filterByStatus(status));
     }
