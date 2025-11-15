@@ -1,0 +1,19 @@
+package com.egrevs.project.cart.repository;
+
+import com.egrevs.project.cart.dto.orders.OrderStatus;
+import com.egrevs.project.cart.entity.order.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface OrderRepository extends JpaRepository<Order, String> {
+    List<Order> findByUserId(String userId);
+
+    Order findByCartId(String cartId);
+
+    List<Order> findAllByUserId(String userId);
+
+    List<Order> findAllByStatus(OrderStatus status);
+}
