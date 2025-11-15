@@ -9,6 +9,7 @@ import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
 import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping
