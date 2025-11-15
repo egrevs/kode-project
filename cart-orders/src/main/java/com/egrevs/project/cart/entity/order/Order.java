@@ -1,14 +1,22 @@
-package com.egrevs.project.cart.entity;
+package com.egrevs.project.cart.entity.order;
 
 import com.egrevs.project.cart.dto.orders.OrderStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "order")
-public class Order {
+@Setter
+@Getter
+public class
+Order {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -23,10 +31,12 @@ public class Order {
     @Column(name = "status")
     private OrderStatus status;
 
-    @Column(name = "cart_id")
-    private String cartId;
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItems> items = new ArrayList<>();
 }

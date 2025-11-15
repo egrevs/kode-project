@@ -1,15 +1,13 @@
 package com.egrevs.project.cart.dto.orders;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public record OrderDto(
-        String id,
+public record CreateOrderRequest(
         String userId,
+        String cartId,
         OrderStatus status,
         BigDecimal totalPrice,
-        LocalDateTime createdAt,
-        List<OrderItemsDto> orderItems
+        List<OrderItemsDto> orderItemslist
 ) {
 }
