@@ -6,7 +6,7 @@
         <artifactId>kode-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>project-catalog</artifactId>
+    <artifactId>restaurant-module</artifactId>
     <packaging>jar</packaging>
 
     <properties>

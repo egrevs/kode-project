@@ -22,7 +22,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDto registerUser(CreateUserRequest request, UserRole userRole) {
+    public UserDto registerUser(CreateUserRequest request) {
         if (userRepository.existsByLogin(request.login())) {
             throw new UserAlreadyExistsException("Such username is already registered!");
         }
@@ -33,7 +33,7 @@ public class UserService {
         user.setCreated_at(LocalDateTime.now());
         user.setLogin(request.login());
         user.setPassword(request.password());
-        user.setRole(userRole);
+        user.setRole(UserRole.USER);
 
         User savedUser = userRepository.save(user);
 

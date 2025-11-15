@@ -65,7 +65,7 @@
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>project-catalog</artifactId>
+            <artifactId>restaurant-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 

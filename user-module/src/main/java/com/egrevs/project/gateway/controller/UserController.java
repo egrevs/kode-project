@@ -25,11 +25,9 @@ public class UserController {
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping
-    public ResponseEntity<UserDto> registerUser(
-            @RequestBody CreateUserRequest request,
-            @RequestParam("role") UserRole role) {
+    public ResponseEntity<UserDto> registerUser(@RequestBody CreateUserRequest request) {
         try {
-            return ResponseEntity.ok(userService.registerUser(request, role));
+            return ResponseEntity.ok(userService.registerUser(request));
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
