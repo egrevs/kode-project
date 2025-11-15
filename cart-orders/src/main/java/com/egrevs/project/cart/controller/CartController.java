@@ -1,21 +1,23 @@
 package com.egrevs.project.cart.controller;
 
 import com.egrevs.project.cart.dto.cart.CartDto;
-import com.egrevs.project.cart.dto.cart.CartItemDto;
+import com.egrevs.project.cart.dto.cart.CartItemsDto;
 import com.egrevs.project.cart.dto.cart.CreateCartRequest;
 import com.egrevs.project.cart.dto.cart.UpdateCartItemsRequest;
 import com.egrevs.project.cart.exception.CartNotFoundException;
 import com.egrevs.project.cart.service.CartService;
 import com.egrevs.project.catalog.exceptions.DishNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/cart")
+@RequiredArgsConstructor
 public class CartController {
 
-    private CartService cartService;
+    private final CartService cartService;
 
     @Operation(summary = "Добавить блюдо в корзину")
     @PostMapping("/items")
@@ -38,7 +40,7 @@ public class CartController {
 
     @Operation(summary = "Изменить количество блюд в корзине")
     @PutMapping("/items/{id}")
-    public ResponseEntity<CartItemDto> changeItemQuantity(
+    public ResponseEntity<CartItemsDto> changeItemQuantity(
             @RequestBody UpdateCartItemsRequest request,
             @PathVariable String id){
         try {
