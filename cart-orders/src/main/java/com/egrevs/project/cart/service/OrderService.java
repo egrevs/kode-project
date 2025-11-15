@@ -11,6 +11,7 @@ import com.egrevs.project.cart.repository.CartsRepository;
 import com.egrevs.project.cart.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class OrderService {
     private final CartsRepository cartsRepository;
     private final OrderRepository orderRepository;
 
+    @Transactional
     public OrderDto createOrderWithCart(CreateOrderRequest request){
         Cart cart = cartsRepository.findById(request.cartId())
                 .orElseThrow(() -> new CartNotFoundException("No cart with id " + request.cartId()));
@@ -55,6 +57,7 @@ public class OrderService {
         return toDto(savedOrder);
     }
 
+    @Transactional
     public OrderDto getOrder(String id){
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No order with id " + id));
@@ -62,6 +65,7 @@ public class OrderService {
         return toDto(order);
     }
 
+    @Transactional
     public List<OrderDto> getUserOrders(String userId){
         List<Order> orderList = orderRepository.findAllByUserId(userId);
         if (orderList.isEmpty()){
@@ -74,6 +78,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public OrderDto changeOrderStatus(UpdateOrderStatusRequest request, String id){
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No order with id " + id));
@@ -90,6 +95,7 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
+    @Transactional
     public List<OrderDto> filterByStatus(OrderStatus status){
         return orderRepository.findAllByStatus(status)
                 .stream()

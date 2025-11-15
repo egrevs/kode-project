@@ -73,7 +73,7 @@ public class RestaurantController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRestaurant(@PathVariable String id) {
         try {
-            restaurantService.deleteDishById(id);
+            restaurantService.closeRestaurantById(id);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (RestaurantNotFoundException e) {
             return ResponseEntity.notFound().build();

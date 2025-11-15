@@ -13,6 +13,7 @@ import com.egrevs.project.catalog.exceptions.DishNotFoundException;
 import com.egrevs.project.catalog.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class CartService {
     private final CartsRepository cartRepository;
     private final CartItemsRepository cartItemRepository;
 
+    @Transactional
     public CartDto createCart(CreateCartRequest cartRequest, String userId){
         Cart cart = new Cart();
         cart.setId(userId);
@@ -57,6 +59,7 @@ public class CartService {
         return toDto(savedCart);
     }
 
+    @Transactional
     public void deleteDishFromCart(String itemId){
         CartItems cartItems = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new DishNotFoundException("No dish in cart with such id"));
@@ -64,6 +67,7 @@ public class CartService {
         cartItemRepository.delete(cartItems);
     }
 
+    @Transactional
     public CartItemsDto changeItemQuantity(String itemId, UpdateCartItemsRequest request){
         CartItems cartItems = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new DishNotFoundException("No dish in cart with such id"));
@@ -75,10 +79,12 @@ public class CartService {
         return toDto(savedItem);
     }
 
+    @Transactional
     public CartDto getUserCart(String userId){
         return toDto(cartRepository.findByUserId(userId));
     }
 
+    @Transactional
     public void clearCart(String cartId){
         cartRepository.findById(cartId)
                 .orElseThrow(() -> new CartNotFoundException("No cart with such id"));

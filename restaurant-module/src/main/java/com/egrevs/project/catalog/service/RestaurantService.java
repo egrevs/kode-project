@@ -16,6 +16,7 @@ import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
 import com.egrevs.project.catalog.repository.DishRepository;
 import com.egrevs.project.catalog.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class RestaurantService {
     }
 
     //TODO -> сделать нормальную логику добавления блюд сразу
+    @Transactional
     public RestaurantDto createRestaurant(CreateRestaurantRequest request, String userId) {
         if(restaurantRepository.existsRestaurantByName(request.name())){
             throw new RestaurantIsAlreadyExistsException("Restaurant with such name is already exists");
@@ -51,6 +53,7 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
+    @Transactional
     public List<RestaurantDto> getFilteredByRatingAndCuisine(FilteredRestaurantRequest request) {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<RestaurantDto> list = restaurants.stream()
@@ -61,6 +64,7 @@ public class RestaurantService {
         return list;
     }
 
+    @Transactional
     public RestaurantDto getById(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
@@ -68,6 +72,7 @@ public class RestaurantService {
         return toDto(restaurant);
     }
 
+    @Transactional
     public RestaurantDto updateRestaurantById(UpdateRestaurantRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
@@ -81,6 +86,7 @@ public class RestaurantService {
         return toDto(savedRestaurant);
     }
 
+    @Transactional
     public void closeRestaurantById(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
@@ -88,6 +94,7 @@ public class RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
+    @Transactional
     public DishDto addDish(CreateDishRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
@@ -106,6 +113,7 @@ public class RestaurantService {
         return toDto(dish);
     }
 
+    @Transactional
     public List<DishDto> getAllDishesFromRestaurant(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
@@ -116,6 +124,7 @@ public class RestaurantService {
                 .toList();
     }
 
+    @Transactional
     public DishDto updateDishById(UpdateDishRequest request, String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
@@ -129,6 +138,7 @@ public class RestaurantService {
         return toDto(savedDish);
     }
 
+    @Transactional
     public void deleteDishById(String id) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
@@ -137,6 +147,7 @@ public class RestaurantService {
     }
 
     //TODO проверки сделать
+    @Transactional
     public void changeAvailabilityOfDish(String id, boolean isAvailable) {
         Dish dish = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));

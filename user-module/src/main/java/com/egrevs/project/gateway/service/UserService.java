@@ -10,6 +10,7 @@ import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
 import com.egrevs.project.gateway.exceptions.UserNotFoundException;
 import com.egrevs.project.gateway.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public UserDto registerUser(CreateUserRequest request) {
         if (userRepository.existsByLogin(request.login())) {
             throw new UserAlreadyExistsException("Such username is already registered!");
@@ -40,12 +42,14 @@ public class UserService {
         return toDto(savedUser);
     }
 
+    @Transactional
     public UserDto getUserById(String id) {
         return userRepository.findById(id)
                 .map(this::toDto)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
+    @Transactional
     public UserDto updateUserById(UpdateUserRequest request, String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -57,11 +61,13 @@ public class UserService {
         return toDto(userRepository.save(user));
     }
 
+    @Transactional
     public void deleteUser(String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(user);
     }
 
+    @Transactional
     public List<UserDto> filterByRole(UserRole role) {
         if (role == null){
             throw new RoleNullableException("Role of user can not be null");
@@ -72,6 +78,7 @@ public class UserService {
                 .toList();
     }
 
+    @Transactional
     public List<UserDto> getAll() {
         return userRepository.findAll()
                 .stream()
