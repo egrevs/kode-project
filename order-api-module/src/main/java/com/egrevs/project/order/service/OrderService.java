@@ -4,6 +4,7 @@ import com.egrevs.project.domain.entity.cart.Cart;
 import com.egrevs.project.domain.entity.order.Order;
 import com.egrevs.project.domain.entity.order.OrderItems;
 import com.egrevs.project.domain.enums.OrderStatus;
+import com.egrevs.project.domain.repository.UserRepository;
 import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
 import com.egrevs.project.domain.repository.cartNorders.OrderRepository;
 import com.egrevs.project.shared.dtos.orders.CreateOrderRequest;
@@ -12,6 +13,7 @@ import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
+import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import com.egrevs.project.shared.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,11 +30,16 @@ public class OrderService {
 
     private final CartsRepository cartsRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public OrderDto createOrderWithCart(CreateOrderRequest request){
         Cart cart = cartsRepository.findById(request.cartId())
                 .orElseThrow(() -> new CartNotFoundException("No cart with id " + request.cartId()));
+
+        if (userRepository.findById(request.userId()).isEmpty()){
+            throw new UserNotFoundException("User with id " + request.userId() + " not found");
+        }
 
         Order order = new Order();
         order.setUserId(request.userId());
