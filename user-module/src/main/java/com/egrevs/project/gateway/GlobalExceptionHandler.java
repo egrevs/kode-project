@@ -1,4 +1,4 @@
-package com.egrevs.project.gateway.exceptions;
+package com.egrevs.project.gateway;
 
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
