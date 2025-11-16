@@ -1,9 +1,9 @@
 package com.egrevs.project.catalog.controller;
 
 import com.egrevs.project.catalog.service.RestaurantService;
-import com.egrevs.project.shared.dtos.dish.CreateDishRequest;
-import com.egrevs.project.shared.dtos.dish.DishDto;
-import com.egrevs.project.shared.dtos.dish.UpdateDishRequest;
+import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
+import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
@@ -82,8 +82,8 @@ public class RestaurantController {
 
     @Operation(summary = "Добавить блюдо по Id ресторана")
     @PostMapping("/{id}/menu")
-    public ResponseEntity<DishDto> addDish(@RequestBody CreateDishRequest request,
-                                           @PathVariable String id) {
+    public ResponseEntity<MenuItemDto> addDish(@RequestBody CreateMenuItemRequest request,
+                                               @PathVariable String id) {
         try {
             return ResponseEntity.ok(restaurantService.addDish(request, id));
         } catch (RestaurantNotFoundException e) {
@@ -93,7 +93,7 @@ public class RestaurantController {
 
     @Operation(summary = "Получить все блюда ресторана")
     @GetMapping("/{id}/menu")
-    public ResponseEntity<List<DishDto>> findAllDished(@PathVariable String id) {
+    public ResponseEntity<List<MenuItemDto>> findAllDished(@PathVariable String id) {
         try {
             return ResponseEntity.ok(restaurantService.getAllDishesFromRestaurant(id));
         } catch (RestaurantNotFoundException e) {
@@ -103,9 +103,9 @@ public class RestaurantController {
 
     @Operation(summary = "Обновить блюдо по его ID")
     @PutMapping("/menu/{id}")
-    public ResponseEntity<DishDto> updateDishById(
+    public ResponseEntity<MenuItemDto> updateDishById(
             @PathVariable String id,
-            @RequestBody UpdateDishRequest request) {
+            @RequestBody UpdateMenuItemRequest request) {
         try {
             return ResponseEntity.ok(restaurantService.updateDishById(request, id));
         } catch (DishNotFoundException e) {

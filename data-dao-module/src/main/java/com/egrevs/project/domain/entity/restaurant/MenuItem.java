@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "dishes")
 @Getter
 @Setter
-public class Dish {
+public class MenuItem {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

@@ -1,12 +1,12 @@
 package com.egrevs.project.catalog.service;
 
-import com.egrevs.project.domain.entity.restaurant.Dish;
+import com.egrevs.project.domain.entity.restaurant.MenuItem;
 import com.egrevs.project.domain.entity.restaurant.Restaurant;
 import com.egrevs.project.domain.repository.restaurant.DishRepository;
 import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
-import com.egrevs.project.shared.dtos.dish.CreateDishRequest;
-import com.egrevs.project.shared.dtos.dish.DishDto;
-import com.egrevs.project.shared.dtos.dish.UpdateDishRequest;
+import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
+import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
@@ -43,7 +43,7 @@ public class RestaurantService {
         restaurant.setName(request.name());
         restaurant.setRating(0.0f);
         restaurant.setCuisine(request.restaurantCuisine());
-        restaurant.setDishes(new ArrayList<>());
+        restaurant.setMenuItems(new ArrayList<>());
 
         var savedRestaurant = restaurantRepository.save(restaurant);
 
@@ -92,68 +92,68 @@ public class RestaurantService {
     }
 
     @Transactional
-    public DishDto addDish(CreateDishRequest request, String id) {
+    public MenuItemDto addDish(CreateMenuItemRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
-        Dish dish = new Dish();
-        dish.setName(request.name());
-        dish.setRestaurant(restaurant);
-        dish.setPrice(request.price());
-        dish.setIsAvailable(true);
-        dish.setCreatedAt(LocalDateTime.now());
-        dishRepository.save(dish);
+        MenuItem menuItem = new MenuItem();
+        menuItem.setName(request.name());
+        menuItem.setRestaurant(restaurant);
+        menuItem.setPrice(request.price());
+        menuItem.setIsAvailable(true);
+        menuItem.setCreatedAt(LocalDateTime.now());
+        dishRepository.save(menuItem);
 
-        restaurant.getDishes().add(dish);
+        restaurant.getMenuItems().add(menuItem);
         restaurantRepository.save(restaurant);
 
-        return toDto(dish);
+        return toDto(menuItem);
     }
 
     @Transactional
-    public List<DishDto> getAllDishesFromRestaurant(String id) {
+    public List<MenuItemDto> getAllDishesFromRestaurant(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
-        return restaurant.getDishes()
+        return restaurant.getMenuItems()
                 .stream()
                 .map(this::toDto)
                 .toList();
     }
 
     @Transactional
-    public DishDto updateDishById(UpdateDishRequest request, String id) {
-        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+    public MenuItemDto updateDishById(UpdateMenuItemRequest request, String id) {
+        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        dish.setUpdatedAt(LocalDateTime.now());
-        if (request.name() != null) dish.setName(request.name());
-        if (request.price() != null) dish.setPrice(request.price());
-        dish.setIsAvailable(request.isAvailable());
+        menuItem.setUpdatedAt(LocalDateTime.now());
+        if (request.name() != null) menuItem.setName(request.name());
+        if (request.price() != null) menuItem.setPrice(request.price());
+        menuItem.setIsAvailable(request.isAvailable());
 
-        var savedDish = dishRepository.save(dish);
+        var savedDish = dishRepository.save(menuItem);
         return toDto(savedDish);
     }
 
     @Transactional
     public void deleteDishById(String id) {
-        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        dishRepository.delete(dish);
+        dishRepository.delete(menuItem);
     }
 
     //TODO проверки сделать
     @Transactional
     public void changeAvailabilityOfDish(String id, boolean isAvailable) {
-        Dish dish = dishRepository.findById(id).orElseThrow(() ->
+        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        if (isAvailable == dish.getIsAvailable()) {
+        if (isAvailable == menuItem.getIsAvailable()) {
             return;
         }
-        dish.setIsAvailable(isAvailable);
-        dishRepository.save(dish);
+        menuItem.setIsAvailable(isAvailable);
+        dishRepository.save(menuItem);
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {
@@ -165,18 +165,18 @@ public class RestaurantService {
                 restaurant.getCuisine(),
                 restaurant.getCreatedAt(),
                 restaurant.getUpdatedAt(),
-                restaurant.getDishes().stream().map(this::toDto).collect(Collectors.toList())
+                restaurant.getMenuItems().stream().map(this::toDto).collect(Collectors.toList())
         );
     }
 
-    private DishDto toDto(Dish dish) {
-        return new DishDto(
-                dish.getId(),
-                dish.getName(),
-                dish.getPrice(),
-                dish.getIsAvailable(),
-                dish.getCreatedAt(),
-                dish.getUpdatedAt()
+    private MenuItemDto toDto(MenuItem menuItem) {
+        return new MenuItemDto(
+                menuItem.getId(),
+                menuItem.getName(),
+                menuItem.getPrice(),
+                menuItem.getIsAvailable(),
+                menuItem.getCreatedAt(),
+                menuItem.getUpdatedAt()
         );
     }
 }

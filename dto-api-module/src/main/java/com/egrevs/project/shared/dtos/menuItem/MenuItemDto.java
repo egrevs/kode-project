@@ -1,9 +1,9 @@
-package com.egrevs.project.shared.dtos.dish;
+package com.egrevs.project.shared.dtos.menuItem;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record DishDto(
+public record MenuItemDto(
         String id,
         String name,
         BigDecimal price,

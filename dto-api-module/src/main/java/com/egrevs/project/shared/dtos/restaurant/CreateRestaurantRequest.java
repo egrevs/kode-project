@@ -2,12 +2,12 @@ package com.egrevs.project.shared.dtos.restaurant;
 
 
 import com.egrevs.project.domain.enums.RestaurantCuisine;
-import com.egrevs.project.shared.dtos.dish.CreateDishRequest;
+import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
 
 import java.util.List;
 
 public record CreateRestaurantRequest(
-        List<CreateDishRequest> dishRequests,
+        List<CreateMenuItemRequest> dishRequests,
         String name,
         RestaurantCuisine restaurantCuisine
 ) {

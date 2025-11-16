@@ -1,7 +1,7 @@
 package com.egrevs.project.shared.dtos.restaurant;
 
 import com.egrevs.project.domain.enums.RestaurantCuisine;
-import com.egrevs.project.shared.dtos.dish.DishDto;
+import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +14,6 @@ public record RestaurantDto(
         RestaurantCuisine cuisine,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        List<DishDto> dishes
+        List<MenuItemDto> dishes
 ) {
 }
