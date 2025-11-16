@@ -8,11 +8,11 @@ import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
 import com.egrevs.project.domain.repository.cartNorders.OrderRepository;
 import com.egrevs.project.shared.dtos.orders.CreateOrderRequest;
 import com.egrevs.project.shared.dtos.orders.OrderDto;
-import com.egrevs.project.shared.dtos.orders.OrderItemsDto;
 import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
+import com.egrevs.project.shared.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +58,7 @@ public class OrderService {
         order.setItems(items);
         Order savedOrder = orderRepository.save(order);
 
-        return toDto(savedOrder);
+        return OrderMapper.toDto(savedOrder);
     }
 
     @Transactional
@@ -66,7 +66,7 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No order with id " + id));
 
-        return toDto(order);
+        return OrderMapper.toDto(order);
     }
 
     @Transactional
@@ -78,7 +78,7 @@ public class OrderService {
 
         return orderRepository.findAllByUserId(userId)
                 .stream()
-                .map(this::toDto)
+                .map(OrderMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -89,7 +89,7 @@ public class OrderService {
 
         order.setStatus(request.status());
         Order savedOrder = orderRepository.save(order);
-        return toDto(savedOrder);
+        return OrderMapper.toDto(savedOrder);
     }
 
     public void cancelOrder(String orderId){
@@ -103,30 +103,7 @@ public class OrderService {
     public List<OrderDto> filterByStatus(OrderStatus status){
         return orderRepository.findAllByStatus(status)
                 .stream()
-                .map(this::toDto)
+                .map(OrderMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    private OrderDto toDto(Order order){
-        return new OrderDto(
-                order.getId(),
-                order.getUserId(),
-                order.getStatus(),
-                order.getTotalPrice(),
-                order.getCreatedAt(),
-                order.getItems().stream().map(this::toDto).toList()
-        );
-    }
-
-    private OrderItemsDto toDto(OrderItems orderItems){
-        return new OrderItemsDto(
-                orderItems.getId(),
-                orderItems.getDishId(),
-                orderItems.getDishName(),
-                orderItems.getQuantity(),
-                orderItems.getDishPrice(),
-                orderItems.getTotalPrice(),
-                orderItems.getCreatedAt()
-        );
     }
 }
