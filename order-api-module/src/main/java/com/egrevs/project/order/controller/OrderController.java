@@ -9,6 +9,7 @@ import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
+import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,30 +27,30 @@ public class OrderController {
 
     @Operation(summary = "Создать заказ из корзины")
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderRequest request){
+    public ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderRequest request) {
         try {
             return ResponseEntity.ok(orderService.createOrderWithCart(request));
-        } catch (CartNotFoundException e){
+        } catch (CartNotFoundException | UserNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @Operation(summary = "Получить заказ по ID")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrder(@PathVariable String id){
+    public ResponseEntity<OrderDto> getOrder(@PathVariable String id) {
         try {
             return ResponseEntity.ok(orderService.getOrder(id));
-        }catch (OrderNotFoundException e){
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @Operation(summary = "Получить все заказы пользователя")
     @GetMapping
-    public ResponseEntity<List<OrderDto>> getUserOrders(@RequestParam String userId){
+    public ResponseEntity<List<OrderDto>> getUserOrders(@RequestParam String userId) {
         try {
             return ResponseEntity.ok(orderService.getUserOrders(userId));
-        } catch (OrderIsEmptyException e){
+        } catch (OrderIsEmptyException e) {
             return ResponseEntity.noContent().build();
         }
     }
@@ -58,28 +59,28 @@ public class OrderController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<OrderDto> changeOrderStatus(
             @PathVariable String id,
-            @RequestBody UpdateOrderStatusRequest request){
+            @RequestBody UpdateOrderStatusRequest request) {
         try {
             return ResponseEntity.ok(orderService.changeOrderStatus(request, id));
-        } catch (OrderNotFoundException e){
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @Operation(summary = "Отменить заказ")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> cancelOrder(@PathVariable String id){
+    public ResponseEntity<?> cancelOrder(@PathVariable String id) {
         try {
             orderService.cancelOrder(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (OrderNotFoundException e){
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @Operation(summary = "Отфильтровать заказы по статусу")
     @GetMapping("/status")
-    public ResponseEntity<List<OrderDto>> filterByStatus(@RequestParam OrderStatus status){
+    public ResponseEntity<List<OrderDto>> filterByStatus(@RequestParam OrderStatus status) {
         return ResponseEntity.ok(orderService.filterByStatus(status));
     }
 }
