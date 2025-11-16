@@ -6,22 +6,14 @@
         <artifactId>kode-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>restaurant-api-module</artifactId>
+    <artifactId>shared-module</artifactId>
     <packaging>jar</packaging>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -35,14 +27,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -58,24 +51,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>data-dao-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.egrevs.project</groupId>
-            <artifactId>dto-api-module</artifactId>
+            <artifactId>domain-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
     </dependencies>
+
+
     <build>
-        <finalName>project-catalog</finalName>
+        <finalName>dto-api-module</finalName>
     </build>
 </project>

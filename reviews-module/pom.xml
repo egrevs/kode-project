@@ -68,13 +68,13 @@
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>data-dao-module</artifactId>
+            <artifactId>domain-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>dto-api-module</artifactId>
+            <artifactId>shared-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 

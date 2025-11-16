@@ -6,7 +6,7 @@
         <artifactId>kode-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>data-dao-module</artifactId>
+    <artifactId>domain-module</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

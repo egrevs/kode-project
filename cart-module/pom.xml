@@ -6,7 +6,7 @@
         <artifactId>kode-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>cart-api-module</artifactId>
+    <artifactId>cart-module</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -64,13 +64,13 @@
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>data-dao-module</artifactId>
+            <artifactId>domain-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>dto-api-module</artifactId>
+            <artifactId>shared-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 

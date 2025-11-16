@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-module</artifactId>
+    <artifactId>gateway-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gateway</name>
     <description>gateway</description>
@@ -74,25 +74,25 @@
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>restaurant-api-module</artifactId>
+            <artifactId>restaurant-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>cart-api-module</artifactId>
+            <artifactId>cart-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>order-api-module</artifactId>
+            <artifactId>order-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>courier-api-module</artifactId>
+            <artifactId>courier-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -104,14 +104,14 @@
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>data-dao-module</artifactId>
+            <artifactId>domain-module</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>dto-api-module</artifactId>
+            <artifactId>shared-module</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

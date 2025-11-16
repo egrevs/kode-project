@@ -12,13 +12,13 @@
     <name>kode-project</name>
 
     <modules>
-        <module>user-module</module>
-        <module>restaurant-api-module</module>
-        <module>cart-api-module</module>
-        <module>data-dao-module</module>
-        <module>dto-api-module</module>
-        <module>courier-api-module</module>
-        <module>order-api-module</module>
+        <module>gateway-module</module>
+        <module>restaurant-module</module>
+        <module>cart-module</module>
+        <module>domain-module</module>
+        <module>shared-module</module>
+        <module>courier-module</module>
+        <module>order-module</module>
         <module>reviews-module</module>
     </modules>
 
