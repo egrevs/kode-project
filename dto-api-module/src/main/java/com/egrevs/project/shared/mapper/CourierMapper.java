@@ -17,7 +17,7 @@ public class CourierMapper {
                 courier.getRole(),
                 courier.getCourierStatus(),
                 courier.getCreated_at(),
-                courier.getOrder().stream().map(OrderMapper::toDto).toList()
+                courier.getOrders().stream().map(OrderMapper::toDto).toList()
         );
     }
 }
