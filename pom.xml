@@ -19,6 +19,7 @@
         <module>dto-api-module</module>
         <module>courier-api-module</module>
         <module>order-api-module</module>
+        <module>reviews-module</module>
     </modules>
 
     <properties>

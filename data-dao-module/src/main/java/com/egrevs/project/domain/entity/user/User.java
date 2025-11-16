@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.user;
 
+import com.egrevs.project.domain.entity.review.Review;
 import com.egrevs.project.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -44,4 +47,6 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }

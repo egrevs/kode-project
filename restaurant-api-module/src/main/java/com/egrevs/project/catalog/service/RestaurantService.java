@@ -14,6 +14,7 @@ import com.egrevs.project.shared.dtos.restaurant.UpdateRestaurantRequest;
 import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
+import com.egrevs.project.shared.mapper.ReviewMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -165,7 +166,8 @@ public class RestaurantService {
                 restaurant.getCuisine(),
                 restaurant.getCreatedAt(),
                 restaurant.getUpdatedAt(),
-                restaurant.getMenuItems().stream().map(this::toDto).collect(Collectors.toList())
+                restaurant.getMenuItems().stream().map(this::toDto).collect(Collectors.toList()),
+                restaurant.getReviews().stream().map(ReviewMapper::toDto).collect(Collectors.toList())
         );
     }
 
