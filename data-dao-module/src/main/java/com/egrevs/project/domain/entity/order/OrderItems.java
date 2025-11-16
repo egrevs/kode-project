@@ -30,7 +30,7 @@ public class OrderItems {
     private Integer quantity;
 
     @Column(name = "dish_price")
-    private BigDecimal dishPrice;
+    private BigDecimal menuItemPrice;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;

@@ -41,12 +41,12 @@ public class OrderService {
 
         List<OrderItems> items = cart.getDishes().stream().map(cartItems -> {
             OrderItems orderItems = new OrderItems();
-            orderItems.setDishId(cartItems.getDishId());
-            orderItems.setDishName(cartItems.getDishName());
+            orderItems.setMenuItemId(cartItems.getMenuItemId());
+            orderItems.setMenuItemName(cartItems.getMenuItemName());
             orderItems.setCreatedAt(LocalDateTime.now());
             orderItems.setQuantity(cartItems.getQuantity());
             orderItems.setTotalPrice(cartItems.getTotalPrice());
-            orderItems.setDishPrice(cartItems.getDishPrice());
+            orderItems.setMenuItemPrice(cartItems.getMenuItemPrice());
             orderItems.setOrder(order);
             return orderItems;
         }).collect(Collectors.toList());

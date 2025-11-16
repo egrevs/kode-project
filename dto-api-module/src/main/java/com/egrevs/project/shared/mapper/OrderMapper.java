@@ -25,7 +25,7 @@ public class OrderMapper {
                 orderItems.getMenuItemId(),
                 orderItems.getMenuItemName(),
                 orderItems.getQuantity(),
-                orderItems.getDishPrice(),
+                orderItems.getMenuItemPrice(),
                 orderItems.getTotalPrice(),
                 orderItems.getCreatedAt()
         );
