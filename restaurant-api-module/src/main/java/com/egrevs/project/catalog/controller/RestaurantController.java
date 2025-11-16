@@ -8,12 +8,8 @@ import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
 import com.egrevs.project.shared.dtos.restaurant.UpdateRestaurantRequest;
-import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
-import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
-import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +27,7 @@ public class RestaurantController {
     public ResponseEntity<RestaurantDto> createRestaurant(
             @RequestBody CreateRestaurantRequest request,
             @RequestParam String userId) {
-        try {
-            return ResponseEntity.ok(restaurantService.createRestaurant(request, userId));
-        } catch (RestaurantIsAlreadyExistsException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(restaurantService.createRestaurant(request, userId));
     }
 
     @Operation(summary = "Получить отфильтрованный список ресторанов",
@@ -50,11 +42,7 @@ public class RestaurantController {
     @Operation(summary = "Получить ресторан по ID")
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok(restaurantService.getById(id));
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(restaurantService.getById(id));
     }
 
     @Operation(summary = "Обновить ресторан по его ID")
@@ -62,43 +50,27 @@ public class RestaurantController {
     public ResponseEntity<RestaurantDto> updateRestaurantById(
             @RequestBody UpdateRestaurantRequest request,
             @PathVariable String id) {
-        try {
-            return ResponseEntity.ok(restaurantService.updateRestaurantById(request, id));
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(restaurantService.updateRestaurantById(request, id));
     }
 
     @Operation(summary = "Удалить ресторан по Id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRestaurant(@PathVariable String id) {
-        try {
-            restaurantService.closeRestaurantById(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable String id) {
+        restaurantService.closeRestaurantById(id);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Добавить блюдо по Id ресторана")
     @PostMapping("/{id}/menu")
     public ResponseEntity<MenuItemDto> addDish(@RequestBody CreateMenuItemRequest request,
                                                @PathVariable String id) {
-        try {
-            return ResponseEntity.ok(restaurantService.addDish(request, id));
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(restaurantService.addDish(request, id));
     }
 
     @Operation(summary = "Получить все блюда ресторана")
     @GetMapping("/{id}/menu")
     public ResponseEntity<List<MenuItemDto>> findAllDished(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok(restaurantService.getAllDishesFromRestaurant(id));
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(restaurantService.getAllDishesFromRestaurant(id));
     }
 
     @Operation(summary = "Обновить блюдо по его ID")
@@ -106,34 +78,22 @@ public class RestaurantController {
     public ResponseEntity<MenuItemDto> updateDishById(
             @PathVariable String id,
             @RequestBody UpdateMenuItemRequest request) {
-        try {
-            return ResponseEntity.ok(restaurantService.updateDishById(request, id));
-        } catch (DishNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(restaurantService.updateDishById(request, id));
     }
 
     @Operation(summary = "Удалить блюдо по его Id")
     @DeleteMapping("menu/{id}")
-    public ResponseEntity<?> deleteDish(@PathVariable String id) {
-        try {
-            restaurantService.deleteDishById(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (DishNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteDish(@PathVariable String id) {
+        restaurantService.deleteDishById(id);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Обновить доступность блюда")
     @PatchMapping("/menu/{id}/availability")
-    public ResponseEntity<?> changeAvailability(@PathVariable String id,
+    public ResponseEntity<Void> changeAvailability(@PathVariable String id,
                                                 @RequestParam Boolean isAvailable) {
-        try {
-            restaurantService.changeAvailabilityOfDish(id, isAvailable);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (DishNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        restaurantService.changeAvailabilityOfDish(id, isAvailable);
+        return ResponseEntity.ok().build();
     }
 
 }

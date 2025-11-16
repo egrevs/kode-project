@@ -5,12 +5,8 @@ import com.egrevs.project.gateway.service.UserService;
 import com.egrevs.project.shared.dtos.user.CreateUserRequest;
 import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
 import com.egrevs.project.shared.dtos.user.UserDto;
-import com.egrevs.project.shared.exceptions.user.RoleNullableException;
-import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
-import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,21 +22,13 @@ public class UserController {
     @Operation(summary = "Регистрация пользователя")
     @PostMapping
     public ResponseEntity<UserDto> registerUser(@RequestBody CreateUserRequest request) {
-        try {
-            return ResponseEntity.ok(userService.registerUser(request));
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return ResponseEntity.ok(userService.registerUser(request));
     }
 
     @Operation(summary = "Получение профиля пользователя по ID")
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok(userService.getUserById(id));
-        }catch (UserNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @Operation(summary = "Обновление профиля по ID")
@@ -49,31 +37,19 @@ public class UserController {
             @PathVariable String id,
             @RequestBody UpdateUserRequest request
     ) {
-        try {
-            return  ResponseEntity.ok(userService.updateUserById(request, id));
-        } catch (UserNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(userService.updateUserById(request, id));
     }
 
     @Operation(summary = "Фильтрация по ролям пользователя")
     @GetMapping
     public ResponseEntity<List<UserDto>> filterByRole(@RequestParam(required = false) UserRole role) {
-        try {
-            return ResponseEntity.ok(userService.filterByRole(role));
-        } catch (RoleNullableException e){
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(userService.filterByRole(role));
     }
 
     @Operation(summary = "Деактивация пользователя")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.noContent().build();
-        } catch (UserNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

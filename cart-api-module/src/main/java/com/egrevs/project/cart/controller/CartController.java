@@ -5,8 +5,6 @@ import com.egrevs.project.shared.dtos.cart.CartDto;
 import com.egrevs.project.shared.dtos.cart.CartItemsDto;
 import com.egrevs.project.shared.dtos.cart.CreateCartRequest;
 import com.egrevs.project.shared.dtos.cart.UpdateCartItemsRequest;
-import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
-import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +28,8 @@ public class CartController {
     @Operation(summary = "Удалить блюдо")
     @DeleteMapping("/items/{id}")
     public ResponseEntity<String> deleteCartItem(@PathVariable String id){
-        try {
-            cartService.deleteDishFromCart(id);
-            return ResponseEntity.ok("Item us successfully deleted");
-        } catch (DishNotFoundException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        cartService.deleteDishFromCart(id);
+        return ResponseEntity.ok("Item is successfully deleted");
     }
 
     @Operation(summary = "Изменить количество блюд в корзине")
@@ -43,11 +37,7 @@ public class CartController {
     public ResponseEntity<CartItemsDto> changeItemQuantity(
             @RequestBody UpdateCartItemsRequest request,
             @PathVariable String id){
-        try {
-            return ResponseEntity.ok(cartService.changeItemQuantity(id, request));
-        } catch (DishNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(cartService.changeItemQuantity(id, request));
     }
 
     @Operation(summary = "Текущая корзина пользователя")
@@ -58,13 +48,9 @@ public class CartController {
 
     @Operation(summary = "Очистить корзину")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> clearCart(@PathVariable String id){
-        try {
-            cartService.clearCart(id);
-            return ResponseEntity.ok("Cart is cleared");
-        }catch (CartNotFoundException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> clearCart(@PathVariable String id){
+        cartService.clearCart(id);
+        return ResponseEntity.ok("Cart is cleared");
     }
 
 }
