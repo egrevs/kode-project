@@ -18,6 +18,7 @@ import com.egrevs.project.shared.mapper.CourierMapper;
 import com.egrevs.project.shared.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class CourierService {
     private final CourierRepository courierRepository;
     private final OrderRepository orderRepository;
 
+    @Transactional
     public CourierDto createCourier(CreateCourierRequest request) {
         if (courierRepository.findByLogin(request.login()).isPresent()) {
             throw new CourierAlreadyExistsException("Courier with login " + request.login() + " already exists");
@@ -47,6 +49,7 @@ public class CourierService {
         return CourierMapper.toDto(savedCourier);
     }
 
+    @Transactional
     public List<CourierDto> getCouriers(){
         return courierRepository.findAll()
                 .stream()
@@ -54,6 +57,7 @@ public class CourierService {
                 .toList();
     }
 
+    @Transactional
     public CourierDto assignOrderToCourier(String id, String orderId){
         Courier courier = courierRepository.findById(id)
                 .orElseThrow(() -> new CourierNotFoundException("No courier with id " + id));
@@ -68,6 +72,7 @@ public class CourierService {
         return CourierMapper.toDto(savedCourier);
     }
 
+    @Transactional
     public List<OrderDto> getActiveCourierOrders(String courierId){
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new CourierNotFoundException("No courier with id " + courierId));
@@ -80,6 +85,7 @@ public class CourierService {
         return orderList;
     }
 
+    @Transactional
     public CourierDto updateCourierStatus(UpdateCourierStatusRequest request, String courierId){
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new CourierNotFoundException("No courier with id " + courierId));

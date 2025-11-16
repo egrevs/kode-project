@@ -15,6 +15,7 @@ import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import com.egrevs.project.shared.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ReviewService {
     private final RestaurantRepository restaurantRepository;
 
     //TODO сделать изменение рейтинга у ресторана
+    @Transactional
     public ReviewDto createReview(CreateReviewRequest request){
         Restaurant restaurant = restaurantRepository.findById(request.restaurant().getId()).orElseThrow(() ->
                 new RestaurantNotFoundException("Restaurant with id " + request.restaurant().getId()
@@ -49,6 +51,7 @@ public class ReviewService {
         return ReviewMapper.toDto(savedReview);
     }
 
+    @Transactional
     public List<ReviewDto> getRestaurantReviews(String restaurantId){
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
                 new RestaurantNotFoundException("Restaurant with id " + restaurantId + " doesn't exists"));
@@ -59,6 +62,7 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public ReviewDto updateReview(UpdateReviewRequest request, String id){
         Review review = reviewRepository.findById(id).orElseThrow(
                 () -> new ReviewNotFoundException("Review with id " + id + " doesn't exists"));
@@ -72,6 +76,7 @@ public class ReviewService {
         return ReviewMapper.toDto(savedReview);
     }
 
+    @Transactional
     public void deleteReview(String id){
         Review review = reviewRepository.findById(id).orElseThrow(
                 () -> new ReviewNotFoundException("Review with id " + id + " doesn't exists"));
