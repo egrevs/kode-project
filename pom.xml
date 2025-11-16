@@ -13,10 +13,12 @@
 
     <modules>
         <module>user-module</module>
-        <module>restaurant-module</module>
-        <module>cart-orders</module>
-        <module>domain-module</module>
-        <module>shared-module</module>
+        <module>restaurant-api-module</module>
+        <module>cart-api-module</module>
+        <module>data-dao-module</module>
+        <module>dto-api-module</module>
+        <module>courier-api-module</module>
+        <module>order-api-module</module>
     </modules>
 
     <properties>

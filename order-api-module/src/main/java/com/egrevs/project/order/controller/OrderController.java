@@ -1,7 +1,8 @@
-package com.egrevs.project.cart.controller;
 
-import com.egrevs.project.cart.service.OrderService;
+package com.egrevs.project.order.controller;
+
 import com.egrevs.project.domain.enums.OrderStatus;
+import com.egrevs.project.order.service.OrderService;
 import com.egrevs.project.shared.dtos.orders.CreateOrderRequest;
 import com.egrevs.project.shared.dtos.orders.OrderDto;
 import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
