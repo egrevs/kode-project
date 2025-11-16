@@ -20,11 +20,11 @@ public class OrderItems {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "dish_id")
-    private String dishId;
+    @Column(name = "menu_item_id")
+    private String menuItemId;
 
-    @Column(name = "dish_name")
-    private String dishName;
+    @Column(name = "menu_item_name")
+    private String menuItemName;
 
     @Column(name = "quantity")
     private Integer quantity;

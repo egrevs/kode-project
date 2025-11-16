@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 
 public record CartItemsDto(
         String id,
-        BigDecimal dishPrice,
-        String dishName,
+        BigDecimal menuItemPrice,
+        String menuItemName,
         BigDecimal totalPrice,
         Integer quantity,
         LocalDateTime createdAt

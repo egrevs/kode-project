@@ -2,7 +2,7 @@ package com.egrevs.project.catalog.service;
 
 import com.egrevs.project.domain.entity.restaurant.MenuItem;
 import com.egrevs.project.domain.entity.restaurant.Restaurant;
-import com.egrevs.project.domain.repository.restaurant.DishRepository;
+import com.egrevs.project.domain.repository.restaurant.MenuItemRepository;
 import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
 import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
 import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
-    private final DishRepository dishRepository;
+    private final MenuItemRepository menuItemRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantService(DishRepository dishRepository, RestaurantRepository restaurantRepository) {
-        this.dishRepository = dishRepository;
+    public RestaurantService(MenuItemRepository menuItemRepository, RestaurantRepository restaurantRepository) {
+        this.menuItemRepository = menuItemRepository;
         this.restaurantRepository = restaurantRepository;
     }
 
@@ -102,7 +102,7 @@ public class RestaurantService {
         menuItem.setPrice(request.price());
         menuItem.setIsAvailable(true);
         menuItem.setCreatedAt(LocalDateTime.now());
-        dishRepository.save(menuItem);
+        menuItemRepository.save(menuItem);
 
         restaurant.getMenuItems().add(menuItem);
         restaurantRepository.save(restaurant);
@@ -123,7 +123,7 @@ public class RestaurantService {
 
     @Transactional
     public MenuItemDto updateDishById(UpdateMenuItemRequest request, String id) {
-        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
+        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
         menuItem.setUpdatedAt(LocalDateTime.now());
@@ -131,29 +131,29 @@ public class RestaurantService {
         if (request.price() != null) menuItem.setPrice(request.price());
         menuItem.setIsAvailable(request.isAvailable());
 
-        var savedDish = dishRepository.save(menuItem);
+        var savedDish = menuItemRepository.save(menuItem);
         return toDto(savedDish);
     }
 
     @Transactional
     public void deleteDishById(String id) {
-        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
+        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        dishRepository.delete(menuItem);
+        menuItemRepository.delete(menuItem);
     }
 
     //TODO проверки сделать
     @Transactional
     public void changeAvailabilityOfDish(String id, boolean isAvailable) {
-        MenuItem menuItem = dishRepository.findById(id).orElseThrow(() ->
+        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
         if (isAvailable == menuItem.getIsAvailable()) {
             return;
         }
         menuItem.setIsAvailable(isAvailable);
-        dishRepository.save(menuItem);
+        menuItemRepository.save(menuItem);
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {

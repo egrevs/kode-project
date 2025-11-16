@@ -33,9 +33,9 @@ public class CartService {
 
         List<CartItems> cartItemsList = cartRequest.requestList().stream().map(itemReq -> {
             CartItems cartItems = new CartItems();
-            cartItems.setDishId(itemReq.dishId());
+            cartItems.setMenuItemId(itemReq.menuItemId());
             cartItems.setCart(cart);
-            cartItems.setDishPrice(itemReq.price());
+            cartItems.setMenuItemPrice(itemReq.price());
             cartItems.setCreatedAt(LocalDateTime.now());
             cartItems.setQuantity(itemReq.quantity());
             cartItems.setTotalPrice(itemReq.price().multiply(BigDecimal.valueOf(itemReq.quantity())));
@@ -106,8 +106,8 @@ public class CartService {
     private CartItemsDto toDto(CartItems cartItem){
         return new CartItemsDto(
                 cartItem.getId(),
-                cartItem.getDishPrice(),
-                cartItem.getDishName(),
+                cartItem.getMenuItemPrice(),
+                cartItem.getMenuItemName(),
                 cartItem.getTotalPrice(),
                 cartItem.getQuantity(),
                 cartItem.getCreatedAt()

@@ -25,13 +25,13 @@ public class CartItems {
     private Cart cart;
 
     @Column(name = "dish_id")
-    private String dishId;
+    private String menuItemId;
 
     @Column(name = "dish_price")
-    private BigDecimal dishPrice;
+    private BigDecimal menuItemPrice;
 
     @Column(name = "dish_name")
-    private String dishName;
+    private String menuItemName;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
