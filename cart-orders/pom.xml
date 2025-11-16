@@ -62,10 +62,15 @@
         <artifactId>lombok</artifactId>
     </dependency>
 
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>domain-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.egrevs.project</groupId>
-            <artifactId>restaurant-module</artifactId>
+            <artifactId>shared-module</artifactId>
             <version>${project.version}</version>
         </dependency>
 

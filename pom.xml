@@ -15,6 +15,8 @@
         <module>user-module</module>
         <module>restaurant-module</module>
         <module>cart-orders</module>
+        <module>domain-module</module>
+        <module>shared-module</module>
     </modules>
 
     <properties>

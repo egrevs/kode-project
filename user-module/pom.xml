@@ -83,6 +83,18 @@
             <artifactId>cart-orders</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>domain-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>shared-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

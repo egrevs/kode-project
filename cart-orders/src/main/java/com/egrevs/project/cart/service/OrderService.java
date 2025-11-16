@@ -1,14 +1,15 @@
 package com.egrevs.project.cart.service;
 
-import com.egrevs.project.cart.dto.orders.*;
-import com.egrevs.project.cart.entity.cart.Cart;
-import com.egrevs.project.cart.entity.order.Order;
-import com.egrevs.project.cart.entity.order.OrderItems;
-import com.egrevs.project.cart.exception.CartNotFoundException;
-import com.egrevs.project.cart.exception.OrderIsEmptyException;
-import com.egrevs.project.cart.exception.OrderNotFoundException;
-import com.egrevs.project.cart.repository.CartsRepository;
-import com.egrevs.project.cart.repository.OrderRepository;
+import com.egrevs.project.domain.entity.cart.Cart;
+import com.egrevs.project.domain.entity.order.Order;
+import com.egrevs.project.domain.entity.order.OrderItems;
+import com.egrevs.project.domain.enums.OrderStatus;
+import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
+import com.egrevs.project.domain.repository.cartNorders.OrderRepository;
+import com.egrevs.project.shared.dtos.orders.*;
+import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
+import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
+import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

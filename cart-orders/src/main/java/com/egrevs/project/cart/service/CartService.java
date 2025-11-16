@@ -1,16 +1,15 @@
 package com.egrevs.project.cart.service;
 
-import com.egrevs.project.cart.dto.cart.CartDto;
-import com.egrevs.project.cart.dto.cart.CartItemsDto;
-import com.egrevs.project.cart.dto.cart.CreateCartRequest;
-import com.egrevs.project.cart.dto.cart.UpdateCartItemsRequest;
-import com.egrevs.project.cart.entity.cart.Cart;
-import com.egrevs.project.cart.entity.cart.CartItems;
-import com.egrevs.project.cart.exception.CartNotFoundException;
-import com.egrevs.project.cart.repository.CartItemsRepository;
-import com.egrevs.project.cart.repository.CartsRepository;
-import com.egrevs.project.catalog.exceptions.DishNotFoundException;
-import com.egrevs.project.catalog.service.RestaurantService;
+import com.egrevs.project.domain.entity.cart.Cart;
+import com.egrevs.project.domain.entity.cart.CartItems;
+import com.egrevs.project.domain.repository.cartNorders.CartItemsRepository;
+import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
+import com.egrevs.project.shared.dtos.cart.CartDto;
+import com.egrevs.project.shared.dtos.cart.CartItemsDto;
+import com.egrevs.project.shared.dtos.cart.CreateCartRequest;
+import com.egrevs.project.shared.dtos.cart.UpdateCartItemsRequest;
+import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
+import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

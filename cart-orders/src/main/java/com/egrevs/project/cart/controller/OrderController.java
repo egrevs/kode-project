@@ -1,13 +1,13 @@
 package com.egrevs.project.cart.controller;
 
-import com.egrevs.project.cart.dto.orders.CreateOrderRequest;
-import com.egrevs.project.cart.dto.orders.OrderDto;
-import com.egrevs.project.cart.dto.orders.OrderStatus;
-import com.egrevs.project.cart.dto.orders.UpdateOrderStatusRequest;
-import com.egrevs.project.cart.exception.CartNotFoundException;
-import com.egrevs.project.cart.exception.OrderIsEmptyException;
-import com.egrevs.project.cart.exception.OrderNotFoundException;
 import com.egrevs.project.cart.service.OrderService;
+import com.egrevs.project.domain.enums.OrderStatus;
+import com.egrevs.project.shared.dtos.orders.CreateOrderRequest;
+import com.egrevs.project.shared.dtos.orders.OrderDto;
+import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
+import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
+import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
+import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

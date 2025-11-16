@@ -1,14 +1,14 @@
 package com.egrevs.project.gateway.service;
 
-import com.egrevs.project.gateway.dto.CreateUserRequest;
-import com.egrevs.project.gateway.dto.UpdateUserRequest;
-import com.egrevs.project.gateway.dto.UserDto;
-import com.egrevs.project.gateway.entity.User;
-import com.egrevs.project.gateway.entity.UserRole;
-import com.egrevs.project.gateway.exceptions.RoleNullableException;
-import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
-import com.egrevs.project.gateway.exceptions.UserNotFoundException;
-import com.egrevs.project.gateway.repository.UserRepository;
+import com.egrevs.project.domain.entity.user.User;
+import com.egrevs.project.domain.enums.UserRole;
+import com.egrevs.project.domain.repository.UserRepository;
+import com.egrevs.project.shared.dtos.user.CreateUserRequest;
+import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
+import com.egrevs.project.shared.dtos.user.UserDto;
+import com.egrevs.project.shared.exceptions.user.RoleNullableException;
+import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
+import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

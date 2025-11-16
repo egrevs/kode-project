@@ -1,28 +1,25 @@
 package com.egrevs.project.catalog.service;
 
-import com.egrevs.project.catalog.dto.dish.CreateDishRequest;
-import com.egrevs.project.catalog.dto.dish.DishDto;
-import com.egrevs.project.catalog.dto.dish.UpdateDishRequest;
-import com.egrevs.project.catalog.dto.restaurant.CreateRestaurantRequest;
-import com.egrevs.project.catalog.dto.restaurant.FilteredRestaurantRequest;
-import com.egrevs.project.catalog.dto.restaurant.RestaurantDto;
-import com.egrevs.project.catalog.dto.restaurant.UpdateRestaurantRequest;
-import com.egrevs.project.catalog.entity.Dish;
-import com.egrevs.project.catalog.entity.Restaurant;
-import com.egrevs.project.catalog.exceptions.DishNotFoundException;
-import com.egrevs.project.catalog.exceptions.InsufficientRightsToOperateException;
-import com.egrevs.project.catalog.exceptions.RestaurantIsAlreadyExistsException;
-import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
-import com.egrevs.project.catalog.repository.DishRepository;
-import com.egrevs.project.catalog.repository.RestaurantRepository;
+import com.egrevs.project.domain.entity.restaurant.Dish;
+import com.egrevs.project.domain.entity.restaurant.Restaurant;
+import com.egrevs.project.domain.repository.restaurant.DishRepository;
+import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
+import com.egrevs.project.shared.dtos.dish.CreateDishRequest;
+import com.egrevs.project.shared.dtos.dish.DishDto;
+import com.egrevs.project.shared.dtos.dish.UpdateDishRequest;
+import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
+import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
+import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
+import com.egrevs.project.shared.dtos.restaurant.UpdateRestaurantRequest;
+import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
+import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
+import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

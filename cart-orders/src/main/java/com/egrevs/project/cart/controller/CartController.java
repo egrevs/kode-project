@@ -1,12 +1,12 @@
 package com.egrevs.project.cart.controller;
 
-import com.egrevs.project.cart.dto.cart.CartDto;
-import com.egrevs.project.cart.dto.cart.CartItemsDto;
-import com.egrevs.project.cart.dto.cart.CreateCartRequest;
-import com.egrevs.project.cart.dto.cart.UpdateCartItemsRequest;
-import com.egrevs.project.cart.exception.CartNotFoundException;
 import com.egrevs.project.cart.service.CartService;
-import com.egrevs.project.catalog.exceptions.DishNotFoundException;
+import com.egrevs.project.shared.dtos.cart.CartDto;
+import com.egrevs.project.shared.dtos.cart.CartItemsDto;
+import com.egrevs.project.shared.dtos.cart.CreateCartRequest;
+import com.egrevs.project.shared.dtos.cart.UpdateCartItemsRequest;
+import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
+import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

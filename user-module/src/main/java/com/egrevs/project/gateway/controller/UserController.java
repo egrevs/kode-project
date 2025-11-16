@@ -1,13 +1,13 @@
 package com.egrevs.project.gateway.controller;
 
-import com.egrevs.project.gateway.dto.CreateUserRequest;
-import com.egrevs.project.gateway.dto.UpdateUserRequest;
-import com.egrevs.project.gateway.dto.UserDto;
-import com.egrevs.project.gateway.entity.UserRole;
-import com.egrevs.project.gateway.exceptions.RoleNullableException;
-import com.egrevs.project.gateway.exceptions.UserAlreadyExistsException;
-import com.egrevs.project.gateway.exceptions.UserNotFoundException;
+import com.egrevs.project.domain.enums.UserRole;
 import com.egrevs.project.gateway.service.UserService;
+import com.egrevs.project.shared.dtos.user.CreateUserRequest;
+import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
+import com.egrevs.project.shared.dtos.user.UserDto;
+import com.egrevs.project.shared.exceptions.user.RoleNullableException;
+import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
+import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

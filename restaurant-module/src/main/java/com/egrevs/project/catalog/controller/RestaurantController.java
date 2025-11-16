@@ -1,16 +1,16 @@
 package com.egrevs.project.catalog.controller;
 
-import com.egrevs.project.catalog.dto.dish.CreateDishRequest;
-import com.egrevs.project.catalog.dto.dish.DishDto;
-import com.egrevs.project.catalog.dto.dish.UpdateDishRequest;
-import com.egrevs.project.catalog.dto.restaurant.CreateRestaurantRequest;
-import com.egrevs.project.catalog.dto.restaurant.FilteredRestaurantRequest;
-import com.egrevs.project.catalog.dto.restaurant.RestaurantDto;
-import com.egrevs.project.catalog.dto.restaurant.UpdateRestaurantRequest;
-import com.egrevs.project.catalog.exceptions.DishNotFoundException;
-import com.egrevs.project.catalog.exceptions.RestaurantIsAlreadyExistsException;
-import com.egrevs.project.catalog.exceptions.RestaurantNotFoundException;
 import com.egrevs.project.catalog.service.RestaurantService;
+import com.egrevs.project.shared.dtos.dish.CreateDishRequest;
+import com.egrevs.project.shared.dtos.dish.DishDto;
+import com.egrevs.project.shared.dtos.dish.UpdateDishRequest;
+import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
+import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
+import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
+import com.egrevs.project.shared.dtos.restaurant.UpdateRestaurantRequest;
+import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
+import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
+import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
