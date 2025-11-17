@@ -1,11 +1,11 @@
 package com.egrevs.project.catalog.service;
 
-import com.egrevs.project.domain.entity.restaurant.MenuItem;
+import com.egrevs.project.domain.entity.restaurant.MenuItems;
 import com.egrevs.project.domain.entity.restaurant.Restaurant;
-import com.egrevs.project.domain.repository.restaurant.MenuItemRepository;
+import com.egrevs.project.domain.repository.restaurant.MenuItemsRepository;
 import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
 import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
-import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
+import com.egrevs.project.shared.dtos.menuItem.MenuItemsDto;
 import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
@@ -14,6 +14,7 @@ import com.egrevs.project.shared.dtos.restaurant.UpdateRestaurantRequest;
 import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
+import com.egrevs.project.shared.mapper.CartItemsMapper;
 import com.egrevs.project.shared.mapper.ReviewMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +26,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
-    private final MenuItemRepository menuItemRepository;
+    private final MenuItemsRepository menuItemsRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantService(MenuItemRepository menuItemRepository, RestaurantRepository restaurantRepository) {
-        this.menuItemRepository = menuItemRepository;
+    public RestaurantService(MenuItemsRepository menuItemsRepository, RestaurantRepository restaurantRepository) {
+        this.menuItemsRepository = menuItemsRepository;
         this.restaurantRepository = restaurantRepository;
     }
 
@@ -92,26 +93,26 @@ public class RestaurantService {
     }
 
     @Transactional
-    public MenuItemDto addDish(CreateMenuItemRequest request, String id) {
+    public MenuItemsDto addDish(CreateMenuItemRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
-        MenuItem menuItem = new MenuItem();
-        menuItem.setName(request.name());
-        menuItem.setRestaurant(restaurant);
-        menuItem.setPrice(request.price());
-        menuItem.setIsAvailable(true);
-        menuItem.setCreatedAt(LocalDateTime.now());
-        menuItemRepository.save(menuItem);
+        MenuItems menuItems = new MenuItems();
+        menuItems.setName(request.name());
+        menuItems.setRestaurant(restaurant);
+        menuItems.setPrice(request.price());
+        menuItems.setIsAvailable(true);
+        menuItems.setCreatedAt(LocalDateTime.now());
+        menuItemsRepository.save(menuItems);
 
-        restaurant.getMenuItems().add(menuItem);
+        restaurant.getMenuItems().add(menuItems);
         restaurantRepository.save(restaurant);
 
-        return toDto(menuItem);
+        return toDto(menuItems);
     }
 
     @Transactional
-    public List<MenuItemDto> getAllDishesFromRestaurant(String id) {
+    public List<MenuItemsDto> getAllDishesFromRestaurant(String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
@@ -122,38 +123,38 @@ public class RestaurantService {
     }
 
     @Transactional
-    public MenuItemDto updateDishById(UpdateMenuItemRequest request, String id) {
-        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
+    public MenuItemsDto updateDishById(UpdateMenuItemRequest request, String id) {
+        MenuItems menuItems = menuItemsRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        menuItem.setUpdatedAt(LocalDateTime.now());
-        if (request.name() != null) menuItem.setName(request.name());
-        if (request.price() != null) menuItem.setPrice(request.price());
-        menuItem.setIsAvailable(request.isAvailable());
+        menuItems.setUpdatedAt(LocalDateTime.now());
+        if (request.name() != null) menuItems.setName(request.name());
+        if (request.price() != null) menuItems.setPrice(request.price());
+        menuItems.setIsAvailable(request.isAvailable());
 
-        var savedDish = menuItemRepository.save(menuItem);
+        var savedDish = menuItemsRepository.save(menuItems);
         return toDto(savedDish);
     }
 
     @Transactional
     public void deleteDishById(String id) {
-        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
+        MenuItems menuItems = menuItemsRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        menuItemRepository.delete(menuItem);
+        menuItemsRepository.delete(menuItems);
     }
 
     //TODO проверки сделать
     @Transactional
     public void changeAvailabilityOfDish(String id, boolean isAvailable) {
-        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() ->
+        MenuItems menuItems = menuItemsRepository.findById(id).orElseThrow(() ->
                 new DishNotFoundException("No dish with id: " + id));
 
-        if (isAvailable == menuItem.getIsAvailable()) {
+        if (isAvailable == menuItems.getIsAvailable()) {
             return;
         }
-        menuItem.setIsAvailable(isAvailable);
-        menuItemRepository.save(menuItem);
+        menuItems.setIsAvailable(isAvailable);
+        menuItemsRepository.save(menuItems);
     }
 
     private RestaurantDto toDto(Restaurant restaurant) {
@@ -169,14 +170,15 @@ public class RestaurantService {
         );
     }
 
-    private MenuItemDto toDto(MenuItem menuItem) {
-        return new MenuItemDto(
-                menuItem.getId(),
-                menuItem.getName(),
-                menuItem.getPrice(),
-                menuItem.getIsAvailable(),
-                menuItem.getCreatedAt(),
-                menuItem.getUpdatedAt()
+    private MenuItemsDto toDto(MenuItems menuItems) {
+        return new MenuItemsDto(
+                menuItems.getId(),
+                menuItems.getName(),
+                menuItems.getPrice(),
+                menuItems.getIsAvailable(),
+                menuItems.getCreatedAt(),
+                menuItems.getUpdatedAt(),
+                menuItems.getCartItems().stream().map(CartItemsMapper::toDto).toList()
         );
     }
 }

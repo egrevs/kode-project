@@ -40,7 +40,7 @@ public class Restaurant {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuItem> menuItems = new ArrayList<>();
+    private List<MenuItems> menuItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();

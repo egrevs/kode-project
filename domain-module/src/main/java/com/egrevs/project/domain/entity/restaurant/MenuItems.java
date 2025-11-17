@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.restaurant;
 
+import com.egrevs.project.domain.entity.cart.CartItems;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +8,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "menu_items")
 @Getter
 @Setter
-public class MenuItem {
+public class MenuItems {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -38,4 +41,7 @@ public class MenuItem {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "menuItems", cascade = CascadeType.REMOVE)
+    private List<CartItems> cartItems = new ArrayList<>();
 }

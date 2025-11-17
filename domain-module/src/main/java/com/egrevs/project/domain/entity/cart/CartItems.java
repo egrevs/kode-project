@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.cart;
 
+import com.egrevs.project.domain.entity.restaurant.MenuItems;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +25,9 @@ public class CartItems {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @Column(name = "menu_item_id")
-    private String menuItemId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_items_id")
+    private MenuItems menuItems;
 
     @Column(name = "menu_item_price")
     private BigDecimal menuItemPrice;

@@ -48,7 +48,7 @@ public class OrderService {
 
         List<OrderItems> items = cart.getDishes().stream().map(cartItems -> {
             OrderItems orderItems = new OrderItems();
-            orderItems.setMenuItemId(cartItems.getMenuItemId());
+            orderItems.setMenuItemId(cartItems.getMenuItems().getId());
             orderItems.setMenuItemName(cartItems.getMenuItemName());
             orderItems.setCreatedAt(LocalDateTime.now());
             orderItems.setQuantity(cartItems.getQuantity());

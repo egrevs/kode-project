@@ -2,7 +2,7 @@ package com.egrevs.project.catalog.controller;
 
 import com.egrevs.project.catalog.service.RestaurantService;
 import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
-import com.egrevs.project.shared.dtos.menuItem.MenuItemDto;
+import com.egrevs.project.shared.dtos.menuItem.MenuItemsDto;
 import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
@@ -61,20 +61,20 @@ public class RestaurantController {
 
     @Operation(summary = "Добавить блюдо по Id ресторана")
     @PostMapping("/{id}/menu")
-    public ResponseEntity<MenuItemDto> addDish(@RequestBody CreateMenuItemRequest request,
-                                               @PathVariable String id) {
+    public ResponseEntity<MenuItemsDto> addDish(@RequestBody CreateMenuItemRequest request,
+                                                @PathVariable String id) {
         return ResponseEntity.ok(restaurantService.addDish(request, id));
     }
 
     @Operation(summary = "Получить все блюда ресторана")
     @GetMapping("/{id}/menu")
-    public ResponseEntity<List<MenuItemDto>> findAllDished(@PathVariable String id) {
+    public ResponseEntity<List<MenuItemsDto>> findAllDished(@PathVariable String id) {
         return ResponseEntity.ok(restaurantService.getAllDishesFromRestaurant(id));
     }
 
     @Operation(summary = "Обновить блюдо по его ID")
     @PutMapping("/menu/{id}")
-    public ResponseEntity<MenuItemDto> updateDishById(
+    public ResponseEntity<MenuItemsDto> updateDishById(
             @PathVariable String id,
             @RequestBody UpdateMenuItemRequest request) {
         return ResponseEntity.ok(restaurantService.updateDishById(request, id));
