@@ -32,12 +32,11 @@ public class ReviewService {
     //TODO сделать изменение рейтинга у ресторана
     @Transactional
     public ReviewDto createReview(CreateReviewRequest request){
-        Restaurant restaurant = restaurantRepository.findById(request.restaurant().getId()).orElseThrow(() ->
-                new RestaurantNotFoundException("Restaurant with id " + request.restaurant().getId()
-                        + " doesn't exists"));
+        Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(() ->
+                new RestaurantNotFoundException("Restaurant with id " + request.restaurantId() + " doesn't exists"));
 
-        User user = userRepository.findById(request.user().getId()).orElseThrow(
-                () -> new UserNotFoundException("User with id " + request.user().getId() + " not found"));
+        User user = userRepository.findById(request.userId()).orElseThrow(
+                () -> new UserNotFoundException("User with id " + request.userId() + " not found"));
 
         Review review = new Review();
         review.setUser(user);
