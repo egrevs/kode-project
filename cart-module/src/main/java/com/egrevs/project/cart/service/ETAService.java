@@ -33,7 +33,7 @@ public class ETAService {
 
     public Duration calculateETAForUser(String userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not fou"));
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found"));
 
         Cart cart = cartsRepository.findByUserId(userId);
         int restaurantCookingTime = getRestaurantCookingTime(cart);
