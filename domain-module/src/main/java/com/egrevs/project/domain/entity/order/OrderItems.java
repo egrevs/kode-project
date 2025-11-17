@@ -29,7 +29,7 @@ public class OrderItems {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "dish_price")
+    @Column(name = "menu_item_price")
     private BigDecimal menuItemPrice;
 
     @Column(name = "total_price")

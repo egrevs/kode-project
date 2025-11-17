@@ -26,7 +26,7 @@ Order {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private String userId;
 
     @Enumerated(EnumType.STRING)
