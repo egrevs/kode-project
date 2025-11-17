@@ -8,8 +8,8 @@ public class ReviewMapper {
     public static ReviewDto toDto(Review review){
         return new ReviewDto(
                 review.getId(),
-                review.getUser(),
-                review.getRestaurant(),
+                review.getUser().getId(),
+                review.getRestaurant().getId(),
                 review.getText(),
                 review.getRating(),
                 review.getCreatedAt(),
