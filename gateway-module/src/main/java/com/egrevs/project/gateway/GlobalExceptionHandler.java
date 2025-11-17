@@ -1,5 +1,6 @@
 package com.egrevs.project.gateway;
 
+import com.egrevs.project.shared.exceptions.PaymentNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
@@ -84,9 +85,14 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
+    @ExceptionHandler(PaymentNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handlePaymentNotFound(PaymentNotFoundException e){
+        return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception e) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, 
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                 "Произошла внутренняя ошибка сервера: " + e.getMessage());
     }
 

@@ -20,6 +20,7 @@
         <module>courier-module</module>
         <module>order-module</module>
         <module>reviews-module</module>
+        <module>payment-module</module>
     </modules>
 
     <properties>
