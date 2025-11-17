@@ -56,6 +56,7 @@ public class CartController {
         return ResponseEntity.ok("Cart is cleared");
     }
 
+    @Operation(summary = "Рассчитываем ETA доставки")
     @GetMapping("/{id}/ETA")
     public ResponseEntity<Duration> calculateETA(@PathVariable String id){
         return ResponseEntity.ok(etaService.calculateETAForUser(id));
