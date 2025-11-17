@@ -2,6 +2,7 @@ package com.egrevs.project.domain.entity.order;
 
 import com.egrevs.project.domain.entity.courier.Courier;
 import com.egrevs.project.domain.entity.payment.Payment;
+import com.egrevs.project.domain.entity.user.User;
 import com.egrevs.project.domain.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,8 +27,9 @@ Order {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "user_id")
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

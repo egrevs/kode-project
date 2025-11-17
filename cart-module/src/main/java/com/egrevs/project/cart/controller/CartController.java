@@ -20,9 +20,8 @@ public class CartController {
     @Operation(summary = "Добавить блюдо в корзину")
     @PostMapping("/items")
     public ResponseEntity<CartDto> createCart(
-            @RequestBody CreateCartRequest request,
-            @RequestParam String userId){
-        return ResponseEntity.ok(cartService.createCart(request, userId));
+            @RequestBody CreateCartRequest request){
+        return ResponseEntity.ok(cartService.createCart(request));
     }
 
     @Operation(summary = "Удалить блюдо")

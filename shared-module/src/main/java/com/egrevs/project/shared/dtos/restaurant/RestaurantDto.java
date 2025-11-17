@@ -9,7 +9,6 @@ import java.util.List;
 
 public record RestaurantDto(
         String id,
-        String userId,
         String name,
         float rating,
         RestaurantCuisine cuisine,

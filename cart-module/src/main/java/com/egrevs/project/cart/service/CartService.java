@@ -2,6 +2,8 @@ package com.egrevs.project.cart.service;
 
 import com.egrevs.project.domain.entity.cart.Cart;
 import com.egrevs.project.domain.entity.cart.CartItems;
+import com.egrevs.project.domain.entity.user.User;
+import com.egrevs.project.domain.repository.UserRepository;
 import com.egrevs.project.domain.repository.cartNorders.CartItemsRepository;
 import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
 import com.egrevs.project.shared.dtos.cart.CartDto;
@@ -10,6 +12,7 @@ import com.egrevs.project.shared.dtos.cart.CreateCartRequest;
 import com.egrevs.project.shared.dtos.cart.UpdateCartItemsRequest;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
+import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +28,15 @@ public class CartService {
 
     private final CartsRepository cartRepository;
     private final CartItemsRepository cartItemRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public CartDto createCart(CreateCartRequest cartRequest, String userId){
+    public CartDto createCart(CreateCartRequest cartRequest){
+        User user = userRepository.findById(cartRequest.userId())
+                .orElseThrow(() -> new UserNotFoundException("User with id " + cartRequest.userId() + " not found"));
+
         Cart cart = new Cart();
-        cart.setId(userId);
+        cart.setUser(user);
 
         List<CartItems> cartItemsList = cartRequest.requestList().stream().map(itemReq -> {
             CartItems cartItems = new CartItems();
@@ -94,7 +101,7 @@ public class CartService {
     private CartDto toDto(Cart cart){
         return new CartDto(
                 cart.getId(),
-                cart.getUserId(),
+                cart.getUser().getId(),
                 cart.getQuantity(),
                 cart.getTotalPrice(),
                 cart.getCreatedAt(),

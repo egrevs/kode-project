@@ -25,9 +25,8 @@ public class RestaurantController {
     @Operation(summary = "Создать ресторан")
     @PostMapping
     public ResponseEntity<RestaurantDto> createRestaurant(
-            @RequestBody CreateRestaurantRequest request,
-            @RequestParam String userId) {
-        return ResponseEntity.ok(restaurantService.createRestaurant(request, userId));
+            @RequestBody CreateRestaurantRequest request) {
+        return ResponseEntity.ok(restaurantService.createRestaurant(request));
     }
 
     @Operation(summary = "Получить отфильтрованный список ресторанов",
@@ -91,7 +90,7 @@ public class RestaurantController {
     @Operation(summary = "Обновить доступность блюда")
     @PatchMapping("/menu/{id}/availability")
     public ResponseEntity<Void> changeAvailability(@PathVariable String id,
-                                                @RequestParam Boolean isAvailable) {
+                                                   @RequestParam Boolean isAvailable) {
         restaurantService.changeAvailabilityOfDish(id, isAvailable);
         return ResponseEntity.ok().build();
     }

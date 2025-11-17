@@ -1,6 +1,7 @@
 package com.egrevs.project.shared.dtos.user;
 
 import com.egrevs.project.domain.enums.UserRole;
+import com.egrevs.project.shared.dtos.orders.OrderDto;
 import com.egrevs.project.shared.dtos.reviews.ReviewDto;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,8 @@ public record UserDto(
         UserRole role,
         LocalDateTime created_at,
         LocalDateTime updated_at,
-        List<ReviewDto> reviewList
+        List<ReviewDto> reviewList,
+        List<OrderDto> orderList,
+        String cartId
 ) {
 }

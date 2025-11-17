@@ -23,9 +23,6 @@ public class Restaurant {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "user_id")
-    private String userId;
-
     @Column(name = "name")
     private String name;
 

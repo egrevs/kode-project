@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.cart;
 
+import com.egrevs.project.domain.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,9 @@ public class Cart {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "user_id")
-    private String userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "quantity")
     private Integer quantity;

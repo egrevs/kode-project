@@ -33,14 +33,13 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    //TODO -> сделать нормальную логику добавления блюд сразу
+    //TODO подсчет рейтинга
     @Transactional
-    public RestaurantDto createRestaurant(CreateRestaurantRequest request, String userId) {
+    public RestaurantDto createRestaurant(CreateRestaurantRequest request) {
         if(restaurantRepository.existsRestaurantByName(request.name())){
             throw new RestaurantIsAlreadyExistsException("Restaurant with such name is already exists");
         }
         Restaurant restaurant = new Restaurant();
-        restaurant.setUserId(userId);
         restaurant.setName(request.name());
         restaurant.setRating(0.0f);
         restaurant.setCuisine(request.restaurantCuisine());
@@ -160,7 +159,6 @@ public class RestaurantService {
     private RestaurantDto toDto(Restaurant restaurant) {
         return new RestaurantDto(
                 restaurant.getId(),
-                restaurant.getUserId(),
                 restaurant.getName(),
                 restaurant.getRating(),
                 restaurant.getCuisine(),

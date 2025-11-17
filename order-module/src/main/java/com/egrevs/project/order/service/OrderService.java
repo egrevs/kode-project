@@ -3,6 +3,7 @@ package com.egrevs.project.order.service;
 import com.egrevs.project.domain.entity.cart.Cart;
 import com.egrevs.project.domain.entity.order.Order;
 import com.egrevs.project.domain.entity.order.OrderItems;
+import com.egrevs.project.domain.entity.user.User;
 import com.egrevs.project.domain.enums.OrderStatus;
 import com.egrevs.project.domain.repository.UserRepository;
 import com.egrevs.project.domain.repository.cartNorders.CartsRepository;
@@ -37,12 +38,11 @@ public class OrderService {
         Cart cart = cartsRepository.findById(request.cartId())
                 .orElseThrow(() -> new CartNotFoundException("No cart with id " + request.cartId()));
 
-        if (userRepository.findById(request.userId()).isEmpty()){
-            throw new UserNotFoundException("User with id " + request.userId() + " not found");
-        }
+        User user = userRepository.findById(request.userId())
+                .orElseThrow(() -> new UserNotFoundException("User with id " + request.userId() + " not found"));
 
         Order order = new Order();
-        order.setUserId(request.userId());
+        order.setUser(user);
         order.setCreatedAt(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
 

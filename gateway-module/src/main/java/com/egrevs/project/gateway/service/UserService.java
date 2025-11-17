@@ -9,6 +9,7 @@ import com.egrevs.project.shared.dtos.user.UserDto;
 import com.egrevs.project.shared.exceptions.user.RoleNullableException;
 import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
+import com.egrevs.project.shared.mapper.OrderMapper;
 import com.egrevs.project.shared.mapper.ReviewMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +102,9 @@ public class UserService {
                 user.getRole(),
                 user.getCreated_at(),
                 user.getUpdated_at(),
-                user.getReviews().stream().map(ReviewMapper::toDto).collect(Collectors.toList())
+                user.getReviews().stream().map(ReviewMapper::toDto).collect(Collectors.toList()),
+                user.getOrderList().stream().map(OrderMapper::toDto).collect(Collectors.toList()),
+                user.getCart().getId()
         );
     }
 

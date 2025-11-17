@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dishes")
+@Table(name = "menu_items")
 @Getter
 @Setter
 public class MenuItem {
