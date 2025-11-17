@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.user;
 
+import com.egrevs.project.domain.entity.notification.Notification;
 import com.egrevs.project.domain.entity.review.Review;
 import com.egrevs.project.domain.enums.UserRole;
 import jakarta.persistence.*;
@@ -49,4 +50,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications = new ArrayList<>();
 }
