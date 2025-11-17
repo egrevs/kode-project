@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 @Getter
 @Setter
 public class Cart {
@@ -22,7 +22,7 @@ public class Cart {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private String userId;
 
     @Column(name = "quantity")
