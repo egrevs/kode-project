@@ -1,6 +1,7 @@
 package com.egrevs.project.domain.entity.order;
 
 import com.egrevs.project.domain.entity.courier.Courier;
+import com.egrevs.project.domain.entity.payment.Payment;
 import com.egrevs.project.domain.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -44,4 +45,7 @@ Order {
     @ManyToOne
     @JoinColumn(name = "courier_id")
     private Courier courier;
+
+    @OneToMany(mappedBy = "order")
+    private List<Payment> payments = new ArrayList<>();
 }
