@@ -41,6 +41,7 @@ public class Courier {
     private UserRole role;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private CourierStatus courierStatus;
 
     @Column(name = "created_at")
