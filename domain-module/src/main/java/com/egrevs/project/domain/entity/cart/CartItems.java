@@ -24,13 +24,13 @@ public class CartItems {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @Column(name = "dish_id")
+    @Column(name = "menu_item_id")
     private String menuItemId;
 
-    @Column(name = "dish_price")
+    @Column(name = "menu_item_price")
     private BigDecimal menuItemPrice;
 
-    @Column(name = "dish_name")
+    @Column(name = "menu_item_name")
     private String menuItemName;
 
     @Column(name = "total_price")
