@@ -21,6 +21,7 @@
         <module>order-module</module>
         <module>reviews-module</module>
         <module>payment-module</module>
+        <module>notification-module</module>
     </modules>
 
     <properties>
