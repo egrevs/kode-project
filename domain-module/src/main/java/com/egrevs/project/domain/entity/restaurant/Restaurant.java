@@ -33,6 +33,9 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private RestaurantCuisine cuisine;
 
+    @Column(name = "avg_cooking_time")
+    private Integer avgCookingTime;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 

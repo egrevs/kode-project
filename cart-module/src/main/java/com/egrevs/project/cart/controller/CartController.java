@@ -1,6 +1,7 @@
 package com.egrevs.project.cart.controller;
 
 import com.egrevs.project.cart.service.CartService;
+import com.egrevs.project.cart.service.ETAService;
 import com.egrevs.project.shared.dtos.cart.CartDto;
 import com.egrevs.project.shared.dtos.cart.CartItemsDto;
 import com.egrevs.project.shared.dtos.cart.CreateCartRequest;
@@ -10,12 +11,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+
 @RestController
 @RequestMapping("api/cart")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
+    private final ETAService etaService;
 
     @Operation(summary = "Добавить блюдо в корзину")
     @PostMapping("/items")
@@ -50,6 +54,11 @@ public class CartController {
     public ResponseEntity<String> clearCart(@PathVariable String id){
         cartService.clearCart(id);
         return ResponseEntity.ok("Cart is cleared");
+    }
+
+    @GetMapping("/{id}/ETA")
+    public ResponseEntity<Duration> calculateETA(@PathVariable String id){
+        return ResponseEntity.ok(etaService.calculateETAForUser(id));
     }
 
 }

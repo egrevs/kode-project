@@ -1,5 +1,6 @@
 package com.egrevs.project.gateway;
 
+import com.egrevs.project.shared.exceptions.CartIsEmptyException;
 import com.egrevs.project.shared.exceptions.NotificationNotFoundException;
 import com.egrevs.project.shared.exceptions.PaymentNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
@@ -94,6 +95,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotificationNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotificationNotFound(NotificationNotFoundException e){
         return buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(CartIsEmptyException.class)
+    public ResponseEntity<Map<String, Object>> handleCartIsEmpty(CartIsEmptyException e){
+        return buildErrorResponse(HttpStatus.NO_CONTENT, e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
