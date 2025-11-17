@@ -115,6 +115,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>payment-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
