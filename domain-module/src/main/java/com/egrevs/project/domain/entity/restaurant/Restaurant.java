@@ -1,5 +1,6 @@
 package com.egrevs.project.domain.entity.restaurant;
 
+import com.egrevs.project.domain.entity.payment.SplitPayment;
 import com.egrevs.project.domain.entity.review.Review;
 import com.egrevs.project.domain.enums.RestaurantCuisine;
 import jakarta.persistence.*;
@@ -47,4 +48,7 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<SplitPayment> splitPayment = new ArrayList<>();
 }
