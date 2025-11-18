@@ -44,4 +44,7 @@ public class MenuItems {
 
     @OneToMany(mappedBy = "menuItems", cascade = CascadeType.REMOVE)
     private List<CartItems> cartItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "menuItems", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuItemsVariant> variants = new ArrayList<>();
 }
