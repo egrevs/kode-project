@@ -16,7 +16,7 @@
         <module>restaurant-module</module>
         <module>cart-module</module>
         <module>domain-module</module>
-        <module>shared-module</module>
+        <module>common-module</module>
         <module>courier-module</module>
         <module>order-module</module>
         <module>reviews-module</module>
