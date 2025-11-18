@@ -1,21 +1,19 @@
 package com.egrevs.project.shared.dtos.payments;
 
-import com.egrevs.project.domain.entity.order.Order;
 import com.egrevs.project.domain.enums.PaymentMethod;
 import com.egrevs.project.domain.enums.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
-public record PaymentDto(
+public record SplitPaymentDto(
         String id,
-        Order order,
-        BigDecimal totalAmount,
+        String paymentId,
+        String restaurantId,
         PaymentStatus status,
         PaymentMethod method,
+        BigDecimal price,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        List<SplitPaymentDto> splitPaymentsList
+        LocalDateTime updatedAt
 ) {
 }

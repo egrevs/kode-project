@@ -1,7 +1,9 @@
 package com.egrevs.project.shared.dtos.restaurant;
 
+import com.egrevs.project.domain.entity.payment.SplitPayment;
 import com.egrevs.project.domain.enums.RestaurantCuisine;
 import com.egrevs.project.shared.dtos.menuItem.items.MenuItemsDto;
+import com.egrevs.project.shared.dtos.payments.SplitPaymentDto;
 import com.egrevs.project.shared.dtos.reviews.ReviewDto;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ public record RestaurantDto(
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         List<MenuItemsDto> dishes,
-        List<ReviewDto> reviews
+        List<ReviewDto> reviews,
+        List<SplitPaymentDto> splitPaymentsList
 ) {
 }
