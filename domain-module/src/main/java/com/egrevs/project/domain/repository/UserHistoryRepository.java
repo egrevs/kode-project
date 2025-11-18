@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface UserHistoryRepository extends JpaRepository<UserHistory, String> {
@@ -22,5 +23,5 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory, String
             where h.userId =: userId 
             and h.validFrom <=:now
             and h.validTo is null """)
-    UserHistory findVersionAtTime(String userId, LocalDateTime now);
+    Optional <UserHistory> findVersionAtTime(String userId, LocalDateTime now);
 }

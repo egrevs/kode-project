@@ -8,6 +8,7 @@ import com.egrevs.project.domain.repository.UserRepository;
 import com.egrevs.project.shared.dtos.user.CreateUserRequest;
 import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
 import com.egrevs.project.shared.dtos.user.UserDto;
+import com.egrevs.project.shared.dtos.user.UserHistoryDto;
 import com.egrevs.project.shared.exceptions.user.RoleNullableException;
 import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
@@ -101,6 +102,14 @@ public class UserService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public UserHistoryDto findVersion(String userId, LocalDateTime time){
+        UserHistory userHistory = userHistoryRepository.findVersionAtTime(userId, time)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found"));
+
+        return toDto(userHistory);
+    }
+
     private void createNewHistoryVersion(User user){
         UserHistory history = new UserHistory();
         history.setUserId(user.getId());
@@ -124,6 +133,18 @@ public class UserService {
         history.setValidTo(LocalDateTime.now());
 
         userHistoryRepository.save(history);
+    }
+
+    private UserHistoryDto toDto(UserHistory userHistory){
+        return new UserHistoryDto(
+                userHistory.getUserId(),
+                userHistory.getName(),
+                userHistory.getEmail(),
+                userHistory.getLogin(),
+                userHistory.getRole(),
+                userHistory.getValidFrom(),
+                userHistory.getValidTo()
+        );
     }
 
     private UserDto toDto(User user) {

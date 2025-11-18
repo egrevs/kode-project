@@ -5,11 +5,13 @@ import com.egrevs.project.gateway.service.UserService;
 import com.egrevs.project.shared.dtos.user.CreateUserRequest;
 import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
 import com.egrevs.project.shared.dtos.user.UserDto;
+import com.egrevs.project.shared.dtos.user.UserHistoryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -51,5 +53,11 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/history")
+    public ResponseEntity<UserHistoryDto> findUserVersion(@PathVariable String id,
+                                                          @RequestParam LocalDateTime time){
+        return ResponseEntity.ok(userService.findVersion(id, time));
     }
 }
