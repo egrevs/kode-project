@@ -1,9 +1,9 @@
 package com.egrevs.project.catalog.controller;
 
 import com.egrevs.project.catalog.service.RestaurantService;
-import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
-import com.egrevs.project.shared.dtos.menuItem.MenuItemsDto;
-import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.items.CreateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.items.MenuItemsDto;
+import com.egrevs.project.shared.dtos.menuItem.items.UpdateMenuItemRequest;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;

@@ -1,6 +1,7 @@
-package com.egrevs.project.shared.dtos.menuItem;
+package com.egrevs.project.shared.dtos.menuItem.items;
 
 import com.egrevs.project.shared.dtos.cart.CartItemsDto;
+import com.egrevs.project.shared.dtos.menuItem.variants.MenuItemVariantsDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public record MenuItemsDto(
         Boolean isAvailable,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        List<CartItemsDto> cartItemsDtoList
+        List<CartItemsDto> cartItemsDtoList,
+        List<MenuItemVariantsDto> variantsDtos
 ) {
 }

@@ -2,12 +2,16 @@ package com.egrevs.project.domain.entity.restaurant;
 
 import com.egrevs.project.domain.enums.VariantSize;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "menu_items_variants")
+@Getter
+@Setter
 public class MenuItemsVariant {
 
     @Id

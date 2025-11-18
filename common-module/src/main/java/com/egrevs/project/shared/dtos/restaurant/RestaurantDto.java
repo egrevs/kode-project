@@ -1,7 +1,7 @@
 package com.egrevs.project.shared.dtos.restaurant;
 
 import com.egrevs.project.domain.enums.RestaurantCuisine;
-import com.egrevs.project.shared.dtos.menuItem.MenuItemsDto;
+import com.egrevs.project.shared.dtos.menuItem.items.MenuItemsDto;
 import com.egrevs.project.shared.dtos.reviews.ReviewDto;
 
 import java.time.LocalDateTime;

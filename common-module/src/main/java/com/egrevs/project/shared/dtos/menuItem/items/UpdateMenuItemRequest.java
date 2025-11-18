@@ -1,4 +1,4 @@
-package com.egrevs.project.shared.dtos.menuItem;
+package com.egrevs.project.shared.dtos.menuItem.items;
 
 import java.math.BigDecimal;
 

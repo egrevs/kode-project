@@ -1,12 +1,15 @@
 package com.egrevs.project.catalog.service;
 
 import com.egrevs.project.domain.entity.restaurant.MenuItems;
+import com.egrevs.project.domain.entity.restaurant.MenuItemsVariant;
 import com.egrevs.project.domain.entity.restaurant.Restaurant;
+import com.egrevs.project.domain.repository.MenuItemVariantsRepository;
 import com.egrevs.project.domain.repository.restaurant.MenuItemsRepository;
 import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
-import com.egrevs.project.shared.dtos.menuItem.CreateMenuItemRequest;
-import com.egrevs.project.shared.dtos.menuItem.MenuItemsDto;
-import com.egrevs.project.shared.dtos.menuItem.UpdateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.items.CreateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.items.MenuItemsDto;
+import com.egrevs.project.shared.dtos.menuItem.items.UpdateMenuItemRequest;
+import com.egrevs.project.shared.dtos.menuItem.variants.MenuItemVariantsDto;
 import com.egrevs.project.shared.dtos.restaurant.CreateRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.FilteredRestaurantRequest;
 import com.egrevs.project.shared.dtos.restaurant.RestaurantDto;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 public class RestaurantService {
     private final MenuItemsRepository menuItemsRepository;
     private final RestaurantRepository restaurantRepository;
+    private MenuItemVariantsRepository menuItemVariantsRepository;
 
     public RestaurantService(MenuItemsRepository menuItemsRepository, RestaurantRepository restaurantRepository) {
         this.menuItemsRepository = menuItemsRepository;
@@ -96,13 +100,23 @@ public class RestaurantService {
     public MenuItemsDto addDish(CreateMenuItemRequest request, String id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
-
         MenuItems menuItems = new MenuItems();
         menuItems.setName(request.name());
         menuItems.setRestaurant(restaurant);
         menuItems.setPrice(request.price());
         menuItems.setIsAvailable(true);
         menuItems.setCreatedAt(LocalDateTime.now());
+
+        List<MenuItemsVariant> variants = request.variantsList().stream().map(items -> {
+            MenuItemsVariant menuItemsVariant = new MenuItemsVariant();
+            menuItemsVariant.setSize(items.size());
+            menuItemsVariant.setPrice(items.price());
+            menuItemsVariant.setPreparationTime(items.preparationTime());
+
+            return menuItemsVariant;
+        }).toList();
+        menuItems.setVariants(variants);
+
         menuItemsRepository.save(menuItems);
 
         restaurant.getMenuItems().add(menuItems);
@@ -157,6 +171,15 @@ public class RestaurantService {
         menuItemsRepository.save(menuItems);
     }
 
+    private MenuItemVariantsDto toDto(MenuItemsVariant variant){
+        return new MenuItemVariantsDto(
+                variant.getId(),
+                variant.getSize(),
+                variant.getPrice(),
+                variant.getPreparationTime()
+        );
+    }
+
     private RestaurantDto toDto(Restaurant restaurant) {
         return new RestaurantDto(
                 restaurant.getId(),
@@ -178,7 +201,8 @@ public class RestaurantService {
                 menuItems.getIsAvailable(),
                 menuItems.getCreatedAt(),
                 menuItems.getUpdatedAt(),
-                menuItems.getCartItems().stream().map(CartItemsMapper::toDto).toList()
+                menuItems.getCartItems().stream().map(CartItemsMapper::toDto).toList(),
+                menuItems.getVariants().stream().map(this::toDto).toList()
         );
     }
 }
