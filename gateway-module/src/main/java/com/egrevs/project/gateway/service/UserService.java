@@ -1,7 +1,9 @@
 package com.egrevs.project.gateway.service;
 
 import com.egrevs.project.domain.entity.user.User;
+import com.egrevs.project.domain.entity.user.UserHistory;
 import com.egrevs.project.domain.enums.UserRole;
+import com.egrevs.project.domain.repository.UserHistoryRepository;
 import com.egrevs.project.domain.repository.UserRepository;
 import com.egrevs.project.shared.dtos.user.CreateUserRequest;
 import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
@@ -21,9 +23,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserHistoryRepository userHistoryRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserHistoryRepository userHistoryRepository) {
         this.userRepository = userRepository;
+        this.userHistoryRepository = userHistoryRepository;
     }
 
     @Transactional
@@ -41,6 +45,7 @@ public class UserService {
         user.setRole(UserRole.USER);
 
         User savedUser = userRepository.save(user);
+        createNewHistoryVersion(savedUser);
 
         return toDto(savedUser);
     }
@@ -56,10 +61,14 @@ public class UserService {
     public UserDto updateUserById(UpdateUserRequest request, String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
+        userHistoryRepository.closeActiveUserVersion(user.getId(), LocalDateTime.now());
+
         if (request.name() != null) user.setName(request.name());
         if (request.email() != null) user.setEmail(request.email());
         if (request.password() != null) user.setPassword(request.password());
         user.setUpdated_at(LocalDateTime.now());
+
+        createNewHistoryVersion(user);
 
         return toDto(userRepository.save(user));
     }
@@ -68,6 +77,9 @@ public class UserService {
     public void deleteUser(String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         userRepository.delete(user);
+
+        userHistoryRepository.closeActiveUserVersion(user.getId(), LocalDateTime.now());
+        createDeletedVersion(user);
     }
 
     @Transactional
@@ -87,6 +99,31 @@ public class UserService {
                 .stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    private void createNewHistoryVersion(User user){
+        UserHistory history = new UserHistory();
+        history.setUserId(user.getId());
+        history.setName(user.getName());
+        history.setRole(user.getRole());
+        history.setLogin(user.getLogin());
+        history.setEmail(user.getEmail());
+        history.setValidFrom(LocalDateTime.now());
+        history.setValidTo(null);
+        userHistoryRepository.save(history);
+    }
+
+    private void createDeletedVersion(User user) {
+        UserHistory history = new UserHistory();
+        history.setUserId(user.getId());
+        history.setName(user.getName());
+        history.setRole(user.getRole());
+        history.setLogin(user.getLogin());
+        history.setEmail(user.getEmail());
+        history.setValidFrom(LocalDateTime.now());
+        history.setValidTo(LocalDateTime.now());
+
+        userHistoryRepository.save(history);
     }
 
     private UserDto toDto(User user) {
