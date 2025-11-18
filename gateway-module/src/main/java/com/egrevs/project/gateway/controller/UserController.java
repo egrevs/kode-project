@@ -55,6 +55,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Получить состояние пользователя на дату")
     @GetMapping("/{id}/history")
     public ResponseEntity<UserHistoryDto> findUserVersion(@PathVariable String id,
                                                           @RequestParam LocalDateTime time){
