@@ -4,6 +4,7 @@ import com.egrevs.project.domain.enums.PaymentStatus;
 import com.egrevs.project.payments.service.PaymentService;
 import com.egrevs.project.shared.dtos.payments.CreatePaymentRequest;
 import com.egrevs.project.shared.dtos.payments.PaymentDto;
+import com.egrevs.project.shared.dtos.payments.SplitPaymentDto;
 import com.egrevs.project.shared.dtos.payments.UpdatePaymentRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,10 @@ public class PaymentController {
     @GetMapping
     public ResponseEntity<List<PaymentDto>> getPaymentByOrder(@RequestParam String id){
         return ResponseEntity.ok(paymentService.getPaymentByOrder(id));
+    }
+
+    @GetMapping("/{id}/splits")
+    public ResponseEntity<List<SplitPaymentDto>> getSplitPayments(@PathVariable String id) {
+        return ResponseEntity.ok(paymentService.createSplitPayments(id));
     }
 }
