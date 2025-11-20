@@ -8,8 +8,6 @@ import java.util.List;
 public record CreateOrderRequest(
         String userId,
         String cartId,
-        OrderStatus status,
-        BigDecimal totalPrice,
         List<OrderItemsDto> orderItemslist
 ) {
 }

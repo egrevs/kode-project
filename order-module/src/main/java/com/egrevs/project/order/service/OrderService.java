@@ -11,6 +11,7 @@ import com.egrevs.project.domain.repository.cartNorders.OrderRepository;
 import com.egrevs.project.shared.dtos.orders.CreateOrderRequest;
 import com.egrevs.project.shared.dtos.orders.OrderDto;
 import com.egrevs.project.shared.dtos.orders.UpdateOrderStatusRequest;
+import com.egrevs.project.shared.exceptions.InvalidOrderPriceException;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
@@ -61,6 +62,10 @@ public class OrderService {
         order.setTotalPrice(items.stream()
                 .map(OrderItems::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
+
+        if (order.getTotalPrice().compareTo(new BigDecimal("300")) < 0){
+            throw new InvalidOrderPriceException("Order price must be more than 300");
+        }
 
         order.setItems(items);
         Order savedOrder = orderRepository.save(order);

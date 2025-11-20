@@ -1,8 +1,6 @@
 package com.egrevs.project.gateway;
 
-import com.egrevs.project.shared.exceptions.CartIsEmptyException;
-import com.egrevs.project.shared.exceptions.NotificationNotFoundException;
-import com.egrevs.project.shared.exceptions.PaymentNotFoundException;
+import com.egrevs.project.shared.exceptions.*;
 import com.egrevs.project.shared.exceptions.cartNorders.CartNotFoundException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderIsEmptyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
@@ -11,7 +9,6 @@ import com.egrevs.project.shared.exceptions.courier.CourierNotFoundException;
 import com.egrevs.project.shared.exceptions.restaurant.DishNotFoundException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
-import com.egrevs.project.shared.exceptions.ReviewNotFoundException;
 import com.egrevs.project.shared.exceptions.user.RoleNullableException;
 import com.egrevs.project.shared.exceptions.user.UserAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.user.UserNotFoundException;
@@ -100,6 +97,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CartIsEmptyException.class)
     public ResponseEntity<Map<String, Object>> handleCartIsEmpty(CartIsEmptyException e){
         return buildErrorResponse(HttpStatus.NO_CONTENT, e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOrderPriceException.class)
+    public ResponseEntity<Map<String, Object>> handleOrderPriceException(InvalidOrderPriceException e){
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
