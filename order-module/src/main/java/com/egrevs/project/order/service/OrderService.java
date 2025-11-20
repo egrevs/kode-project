@@ -113,6 +113,10 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("No order with id " + orderId));
 
+        if (order.getStatus() == OrderStatus.DELIVERED){
+            throw new OrderNotCancelledException("Order can not be cancelled");
+        }
+
         orderRepository.delete(order);
     }
 

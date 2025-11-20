@@ -114,6 +114,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
+    @ExceptionHandler(OrderNotCancelledException.class)
+    public ResponseEntity<Map<String, Object>> handleOrderCancelException(OrderNotCancelledException e){
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception e) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
