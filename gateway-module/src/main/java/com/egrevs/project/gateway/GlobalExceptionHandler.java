@@ -104,6 +104,12 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
+    @ExceptionHandler(OrderWithoutItemsException.class)
+    public ResponseEntity<Map<String, Object>> handleOrderItemsException(OrderWithoutItemsException e){
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception e) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
