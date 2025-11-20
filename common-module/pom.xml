@@ -59,6 +59,6 @@
 
 
     <build>
-        <finalName>dto-api-module</finalName>
+        <finalName>common-module</finalName>
     </build>
 </project>
