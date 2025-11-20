@@ -1,6 +1,5 @@
 package com.egrevs.project.shared.dtos.restaurant;
 
-import com.egrevs.project.domain.entity.payment.SplitPayment;
 import com.egrevs.project.domain.enums.RestaurantCuisine;
 import com.egrevs.project.shared.dtos.menuItem.items.MenuItemsDto;
 import com.egrevs.project.shared.dtos.payments.SplitPaymentDto;

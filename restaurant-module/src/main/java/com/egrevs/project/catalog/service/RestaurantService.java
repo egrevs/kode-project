@@ -3,6 +3,7 @@ package com.egrevs.project.catalog.service;
 import com.egrevs.project.domain.entity.restaurant.MenuItems;
 import com.egrevs.project.domain.entity.restaurant.MenuItemsVariant;
 import com.egrevs.project.domain.entity.restaurant.Restaurant;
+import com.egrevs.project.domain.entity.review.Review;
 import com.egrevs.project.domain.repository.MenuItemVariantsRepository;
 import com.egrevs.project.domain.repository.restaurant.MenuItemsRepository;
 import com.egrevs.project.domain.repository.restaurant.RestaurantRepository;
@@ -19,6 +20,7 @@ import com.egrevs.project.shared.exceptions.restaurant.RestaurantIsAlreadyExists
 import com.egrevs.project.shared.exceptions.restaurant.RestaurantNotFoundException;
 import com.egrevs.project.shared.mapper.CartItemsMapper;
 import com.egrevs.project.shared.mapper.ReviewMapper;
+import com.egrevs.project.shared.mapper.SplitPaymentMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,10 +40,9 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    //TODO подсчет рейтинга
     @Transactional
     public RestaurantDto createRestaurant(CreateRestaurantRequest request) {
-        if(restaurantRepository.existsRestaurantByName(request.name())){
+        if (restaurantRepository.existsRestaurantByName(request.name())) {
             throw new RestaurantIsAlreadyExistsException("Restaurant with such name is already exists");
         }
         Restaurant restaurant = new Restaurant();
@@ -51,6 +52,8 @@ public class RestaurantService {
         restaurant.setMenuItems(new ArrayList<>());
 
         var savedRestaurant = restaurantRepository.save(restaurant);
+
+        recalculateRating(restaurant);
 
         return toDto(savedRestaurant);
     }
@@ -85,6 +88,8 @@ public class RestaurantService {
 
         var savedRestaurant = restaurantRepository.save(restaurant);
 
+        recalculateRating(restaurant);
+
         return toDto(savedRestaurant);
     }
 
@@ -93,6 +98,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() ->
                 new RestaurantNotFoundException("No restaurant with id: " + id));
 
+        recalculateRating(restaurant);
         restaurantRepository.delete(restaurant);
     }
 
@@ -120,6 +126,8 @@ public class RestaurantService {
         menuItemsRepository.save(menuItems);
 
         restaurant.getMenuItems().add(menuItems);
+
+        recalculateRating(restaurant);
         restaurantRepository.save(restaurant);
 
         return toDto(menuItems);
@@ -171,7 +179,21 @@ public class RestaurantService {
         menuItemsRepository.save(menuItems);
     }
 
-    private MenuItemVariantsDto toDto(MenuItemsVariant variant){
+    private void recalculateRating(Restaurant restaurant) {
+        List<Review> reviews = restaurant.getReviews();
+        float rating = (float) reviews.stream()
+                .mapToDouble(Review::getRating)
+                .average()
+                .orElse(0.0);
+
+        if (reviews.isEmpty()) {
+            restaurant.setRating(null);
+        } else {
+            restaurant.setRating(rating);
+        }
+    }
+
+    private MenuItemVariantsDto toDto(MenuItemsVariant variant) {
         return new MenuItemVariantsDto(
                 variant.getId(),
                 variant.getSize(),
@@ -189,7 +211,8 @@ public class RestaurantService {
                 restaurant.getCreatedAt(),
                 restaurant.getUpdatedAt(),
                 restaurant.getMenuItems().stream().map(this::toDto).collect(Collectors.toList()),
-                restaurant.getReviews().stream().map(ReviewMapper::toDto).collect(Collectors.toList())
+                restaurant.getReviews().stream().map(ReviewMapper::toDto).collect(Collectors.toList()),
+                restaurant.getSplitPayment().stream().map(SplitPaymentMapper::toDto).collect(Collectors.toList())
         );
     }
 
