@@ -100,22 +100,27 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidOrderPriceException.class)
-    public ResponseEntity<Map<String, Object>> handleOrderPriceException(InvalidOrderPriceException e){
+    public ResponseEntity<Map<String, Object>> handleOrderPrice(InvalidOrderPriceException e){
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(OrderWithoutItemsException.class)
-    public ResponseEntity<Map<String, Object>> handleOrderItemsException(OrderWithoutItemsException e){
+    public ResponseEntity<Map<String, Object>> handleOrderItemsExists(OrderWithoutItemsException e){
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(OrderIsNotReadyException.class)
-    public ResponseEntity<Map<String, Object>> handleOrderReadyException(OrderIsNotReadyException e){
+    public ResponseEntity<Map<String, Object>> handleOrderIsNotReady(OrderIsNotReadyException e){
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(OrderNotCancelledException.class)
-    public ResponseEntity<Map<String, Object>> handleOrderCancelException(OrderNotCancelledException e){
+    public ResponseEntity<Map<String, Object>> handleOrderCancelling(OrderNotCancelledException e){
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(ReviewOnNotDeliveredOrderException.class)
+    public ResponseEntity<Map<String, Object>> handleReviewByOrderStatus(ReviewOnNotDeliveredOrderException e){
         return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
