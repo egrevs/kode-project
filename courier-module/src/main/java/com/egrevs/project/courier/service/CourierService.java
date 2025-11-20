@@ -11,6 +11,7 @@ import com.egrevs.project.shared.dtos.courier.CourierDto;
 import com.egrevs.project.shared.dtos.courier.CreateCourierRequest;
 import com.egrevs.project.shared.dtos.courier.UpdateCourierStatusRequest;
 import com.egrevs.project.shared.dtos.orders.OrderDto;
+import com.egrevs.project.shared.exceptions.OrderIsNotReadyException;
 import com.egrevs.project.shared.exceptions.cartNorders.OrderNotFoundException;
 import com.egrevs.project.shared.exceptions.courier.CourierAlreadyExistsException;
 import com.egrevs.project.shared.exceptions.courier.CourierNotFoundException;
@@ -64,6 +65,10 @@ public class CourierService {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("No order with id " + orderId));
+
+        if (order.getStatus() != OrderStatus.READY){
+            throw new OrderIsNotReadyException("Order must be ready!");
+        }
 
         order.setCourier(courier);
         courier.getOrders().add(order);

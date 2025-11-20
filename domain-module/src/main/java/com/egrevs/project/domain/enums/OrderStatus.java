@@ -4,5 +4,6 @@ public enum OrderStatus {
     PENDING, // ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ
     COLLECTING, // СОБИРАЕТСЯ
     DELIVERING, // В ДОСТАВКЕ
-    DELIVERED // ДОСТАВЛЕН
+    DELIVERED, // ДОСТАВЛЕН
+    READY // ГОТОВ К КУРЬЕРУ
 }
