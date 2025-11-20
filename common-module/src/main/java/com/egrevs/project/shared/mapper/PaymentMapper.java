@@ -15,7 +15,8 @@ public class PaymentMapper {
                 payment.getPaymentStatus(),
                 payment.getMethod(),
                 payment.getCreatedAt(),
-                payment.getUpdatedAt()
+                payment.getUpdatedAt(),
+                payment.getSplitPayments().stream().map(SplitPaymentMapper::toDto).toList()
         );
     }
 }
