@@ -22,6 +22,7 @@
         <module>reviews-module</module>
         <module>payment-module</module>
         <module>notification-module</module>
+        <module>kode-db</module>
     </modules>
 
     <properties>

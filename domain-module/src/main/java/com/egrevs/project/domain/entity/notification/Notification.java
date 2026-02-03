@@ -29,6 +29,7 @@ public class Notification {
     private String message;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private NotificationStatus status = NotificationStatus.UNREAD;
 
     @Column(name = "created_at")

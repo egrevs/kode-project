@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: 'classpath:/db/changelog/changes/01-create-user-table.sql'
+  - include:
+      file: 'classpath:/db/changelog/changes/02-create-restaurant-structure.sql'
+  - include:
+      file: 'classpath:/db/changelog/changes/03-create-cart-structure.sql'
+  - include:
+      file: 'classpath:db/changelog/changes/04-create-courier-table.sql'
+  - include:
+      file: 'classpath:db/changelog/changes/05-create-orders-structure.sql'
+  - include:
+      file: 'classpath:/db/changelog/changes/06-create-payment-structure.sql'
+  - include:
+      file: 'classpath:/db/changelog/changes/07-create-review-table.sql'
+  - include:
+      file: 'classpath:/db/changelog/changes/08-create-notification-table.sql'
