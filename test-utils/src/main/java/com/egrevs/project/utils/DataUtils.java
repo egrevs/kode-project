@@ -15,6 +15,8 @@ import com.egrevs.project.domain.entity.review.Review;
 import com.egrevs.project.domain.entity.user.User;
 import com.egrevs.project.domain.entity.user.UserHistory;
 import com.egrevs.project.domain.enums.*;
+import com.egrevs.project.shared.dtos.user.CreateUserRequest;
+import com.egrevs.project.shared.dtos.user.UpdateUserRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,6 +36,23 @@ public final class DataUtils {
         user.setCreated_at(LocalDateTime.now());
         user.setUpdated_at(LocalDateTime.now());
         return user;
+    }
+
+    public static CreateUserRequest createUserRequest(){
+        return new CreateUserRequest(
+                "John Doe",
+                "john.doe@example.com",
+                "john_doe",
+                "password123"
+        );
+    }
+
+    public static UpdateUserRequest updateUserRequest(){
+        return new UpdateUserRequest(
+                "Updated name",
+                "updated.user@example.com",
+                "updated_password"
+        );
     }
 
     public static Courier createCourier(CourierStatus status) {
