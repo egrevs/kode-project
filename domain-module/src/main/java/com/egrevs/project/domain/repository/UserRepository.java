@@ -12,6 +12,4 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String> {
     boolean existsByLogin(String login);
     List<User> findAllByRole(UserRole role);
-
-    User findUserById(String id);
 }
