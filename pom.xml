@@ -23,6 +23,7 @@
         <module>payment-module</module>
         <module>notification-module</module>
         <module>kode-db</module>
+        <module>test-utils</module>
     </modules>
 
     <properties>

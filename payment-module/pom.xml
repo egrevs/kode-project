@@ -73,6 +73,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.egrevs.project</groupId>
+            <artifactId>test-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>payment-module</finalName>
