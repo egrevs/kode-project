@@ -47,6 +47,15 @@ public final class DataUtils {
         );
     }
 
+    public static CreateUserRequest createInvalidUserRequest(){
+        return new CreateUserRequest(
+                "John Doe",
+                "john.doe@example.com",
+                "existed_login",
+                "password123"
+        );
+    }
+
     public static UpdateUserRequest updateUserRequest(){
         return new UpdateUserRequest(
                 "Updated name",

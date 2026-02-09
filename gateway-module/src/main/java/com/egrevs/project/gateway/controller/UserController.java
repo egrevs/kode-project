@@ -29,14 +29,14 @@ public class UserController {
 
     @Operation(summary = "Получение профиля пользователя по ID")
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable String id) {
+    public ResponseEntity<UserDto> findById(@PathVariable("id") String id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @Operation(summary = "Обновление профиля по ID")
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
-            @PathVariable String id,
+            @PathVariable("id") String id,
             @RequestBody UpdateUserRequest request
     ) {
         return ResponseEntity.ok(userService.updateUserById(request, id));
@@ -44,21 +44,22 @@ public class UserController {
 
     @Operation(summary = "Фильтрация по ролям пользователя")
     @GetMapping
-    public ResponseEntity<List<UserDto>> filterByRole(@RequestParam(required = false) UserRole role) {
+    public ResponseEntity<List<UserDto>> filterByRole(@RequestParam(required = false, name = "role")
+                                                          UserRole role) {
         return ResponseEntity.ok(userService.filterByRole(role));
     }
 
     @Operation(summary = "Деактивация пользователя")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id") String id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Получить состояние пользователя на дату")
     @GetMapping("/{id}/history")
-    public ResponseEntity<UserHistoryDto> findUserVersion(@PathVariable String id,
-                                                          @RequestParam LocalDateTime time){
+    public ResponseEntity<UserHistoryDto> findUserVersion(@PathVariable("id") String id,
+                                                          @RequestParam("param") LocalDateTime time){
         return ResponseEntity.ok(userService.findVersion(id, time));
     }
 }
